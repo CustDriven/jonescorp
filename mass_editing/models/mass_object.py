@@ -62,7 +62,7 @@ class MassObject(models.Model):
             'name': button_name,
             'type': 'ir.actions.act_window',
             'res_model': 'mass.editing.wizard',
-            'binding_model': src_obj,
+            # 'binding_model': src_obj,
             'groups_id': [(4, x.id) for x in self.group_ids],
             'view_type': 'form',
             'context': "{'mass_editing_object' : %d}" % (self.id),
