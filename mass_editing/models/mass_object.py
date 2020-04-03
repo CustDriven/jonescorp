@@ -64,7 +64,7 @@ class MassObject(models.Model):
             'res_model': 'mass.editing.wizard',
             # 'binding_model': src_obj,
             'groups_id': [(4, x.id) for x in self.group_ids],
-            'view_type': 'form',
+            # 'view_type': 'form',
             'context': "{'mass_editing_object' : %d}" % (self.id),
             'view_mode': 'form',
             'target': 'new',
