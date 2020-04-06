@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="ks_leaderboard.leaderboard_ks_leaderboard">
+            <field name="name">ks_leaderboard View</field>
+            <field name="model">ks_leaderboard.leaderboard</field>
+            <field name="arch" type="xml">
+                <ks_leaderboard string="Leaderboard Manager">
+                    <field name="name"/>
+                    <field name="ks_leaderboard_top_menu_id"/>
+                    <field name="ks_leaderboard_menu_name"/>
+                    <field name="ks_leaderboard_menu_priority"/>
+                    <field name="ks_leaderboard_active"/>
+                    <field name="ks_leaderboard_group_access"/>
+                    <field name="ks_leaderboard_item_ids"/>
+                </ks_leaderboard>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ks_leaderboard.leaderboard_tree">
+            <field name="name">ks_leaderboard View</field>
+            <field name="model">ks_leaderboard.leaderboard</field>
+            <field name="arch" type="xml">
+                <tree string="Leaderboard Manager" editable="top">
+                    <field name="name"/>
+                    <field name="ks_leaderboard_top_menu_id" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                    <field name="ks_leaderboard_menu_name"/>
+                    <field name="ks_leaderboard_menu_priority"/>
+                    <field name="ks_leaderboard_active"/>
+                    <field name="ks_leaderboard_default_template"  attrs="{'readonly':[('id','>', 0)]}"
+                            options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                    <field name="ks_leaderboard_group_access" widget="many2many_tags"/>
+                    <button name="ks_view_items_view" string="View Items" type="object" class="btn-primary"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ks_leaderboard.leaderboard_form_tree_action_window">
+            <field name="name">Leaderboard Manager</field>
+            <field name="res_model">ks_leaderboard.leaderboard</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem name="My Leaderboard" id="ks_leaderboard.leaderboard_menu_root"
+                   web_icon="ks_leaderboard,static/description/icon.png"/>
+
+        <menuitem name="Configuration" id="ks_leaderboard.configuration_menu"
+                  parent="ks_leaderboard.leaderboard_menu_root"
+                  groups="ks_leaderboard_manager_group"
+                  sequence="100"/>
+
+        <menuitem name="Leaderboards" id="ks_leaderboard.leaderboard_menu"
+                  parent="ks_leaderboard.configuration_menu"
+                  groups="ks_leaderboard_manager_group"
+                  action="ks_leaderboard.leaderboard_form_tree_action_window"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,278 @@
+.ks_leaderboard_item_preview{
+    height: 500px;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+
+.ks_leaderboard_item_preview .ks_lb_item_view, .ks_leaderboard_item_preview .ks_lb_item_view .ks_lb_item_main_body {
+    height: 100%;
+}
+
+.ks_leaderboard_item_preview .ks_lb_item_content {
+    overflow: auto;
+}
+
+.ks_card_remove_animation_left {
+    transform: translateX(-100%);
+    transition: all 0.3s;
+}
+
+.ks_field_required_widget {
+    height: 100px;
+    width: 230px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.ks_separator {
+    margin-top: 20px !important;
+}
+
+
+.ks_field_required_widget > span {
+    font-weight: 600;
+}
+
+.ks_field_required_widget > ul > li {
+    list-style-type: unset;
+    margin-left: 14px;
+}
+
+.ks_float_button {
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+
+	z-index: 999;
+}
+
+.ks-my-float {
+	margin-top:22px;
+}
+
+.ks_leaderboard_item {
+    border: solid;
+    height: 100px;
+    width: 100px;
+    text-align: center;
+}
+
+.o_ks_leaderboard_view {
+    overflow: unset;
+}
+
+.o_ks_leaderboard_view .ks_lb_main_content {
+    height: calc(100vh - 106px) !important;
+    overflow: auto;
+}
+
+.o_ks_leaderboard_view .ks_lb_header_container{
+    border-bottom: 1px solid #cccccc;
+}
+.o_ks_leaderboard_view .ks_lb_header_container #ks_lb_title{
+    font-size: 1.8rem;
+    color: #777777;
+    padding-left: 1rem !important;
+}
+
+
+/*Item View CSS*/
+.ks_lb_item_main_body{
+    background: white;
+    margin: 20px;
+    overflow: hidden !important;
+}
+
+.ks_lb_item_content {
+    overflow: auto;
+    height: 100%;
+}
+
+/*Enable this to add border between item cards */
+/*.ks_item_card_container > .ks_card {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    *//* border-radius: 3px; *//*
+}*/
+
+.ks_lb_item_container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/*Gridstack Item position inline fix. Weird Things happening.*/
+.ks_lb_item_container .ks_lb_item_view {
+    position: absolute !important;
+}
+
+
+/*Item Theme COLOR CSS*/
+
+.ks_lb_theme_input::before {
+    content: '';
+    position: relative;
+    width: 25px;
+    height: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+.ks_color_white::before {
+    background: #ffffff;
+    color:black;
+}
+
+.ks_color_white {
+    border: 1px solid #bdbdbd
+}
+
+.ks_color_blue::before {
+    background: #337ab7;
+}
+.ks_color_red::before{
+    background: #d9534f;
+}
+.ks_color_yellow::before{
+    background: #f0ad4e;
+}
+.ks_color_green::before{
+    background: #5cb85c;
+}
+.ks_lb_theme_view_render{
+    display: flex;
+}
+.ks_lb_theme_input:checked:before{
+    content: '✔';
+}
+
+.ks_lb_theme_input_container{
+        margin-right: 20px;
+}
+
+
+
+.ks_lb_top_settings .fa-cog{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.ks_lb_setting_container{
+    padding: 5px 10px 5px 10px;
+    cursor: pointer;
+}
+
+.ks_lb_setting_container:hover{
+    color: #333333;
+    background-color: #f5f5f5;
+}
+
+
+.ks_lb_ninja_toggle_menu::after {
+    display:none !important;
+}
+
+/*
+  Define here the CSS styles applied only to Safari browsers
+  (any version and any device)
+ */
+.ks_lb_theme_input{
+    -webkit-appearance: none;
+}
+
+.ks_not_click{
+    pointer-events: none;
+}
+
+
+.ks_overflow_hidden{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+
+/*Common CSS (or API)*/
+
+.bg-light-blue {
+  background: #407cba;
+}
+/*.bg-light-blue-100 {
+  background: #f9993e;
+}*/
+/*
+.bg-perple {
+  background: #e4b381 !important
+}*/
+
+
+.ks_leaderboard_edit_mode_view .ks_lb_item_main_body:hover .ks_lb_item_configs, .ks_lb_not_manager .ks_lb_item_configs, .ks_leaderboard_edit_mode_view .ks_lb_item_configs{
+     transform: translateY(-100%) !important;
+}
+.ks_leaderboard_edit_mode_view .ks_lb_item_main_body {
+    cursor: grab;
+}
+
+.ks_item_has_image .ks_item_card_container .list-item {
+    width: 25% !important;
+    max-width: 25% !important;
+}
+
+
+.ks_item_no_image .ks_item_card_container .list-item {
+    width: 33% !important;
+    max-width: 33% !important;
+}
+
+
+.ks_item_has_image .ks_item_body_layout_4.ks_item_card_container .list-item {
+    width: 33% !important;
+    max-width: 33% !important;
+}
+
+.ks_item_no_image .ks_item_body_layout_4.ks_item_card_container .list-item {
+    width: 50% !important;
+    max-width: 50% !important;
+}
+
+.ks_item_header_layout_1 .user-image-item > img {
+    border-radius: 50%;
+}
+
+
+/*BS dropdown right side*/
+.ks_lb_item_configs .ks_bs_dropdown.show{
+    right: 30px !important;
+    left: auto !important;
+    transform: none !important;
+    top: 30px !important;
+}
+
+.ks_lb_item_main_body .ks_lb_item_head_content .ks_lb_item_no_data {
+    position: relative;
+    top: 150px;
+    text-align: center;
+    font-size: 20px;
+    width: 100%;
+}
+
+.ks_lb_item_main_body.ks_lb_item_preview .ks_lb_item_head_content .ks_lb_item_no_data {
+    top: 150px;
+    height: 250px;
+    top: 80px;
+
+}
+
+.ks_card_layout_1 .leader-board-card,
+.ks_card_layout_2 .leader-board-card {
+    margin: 15px 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,236 @@
+/*Item Content Related CSS*/
+
+/*Layout 3*/
+.ks_card_layout_3{
+    color: #101010;
+    margin-top: 10px;
+}
+
+.ks_card_layout_3 .head-care {
+  margin: 0 9px 10px;
+  border-radius: 15px;
+}
+
+.ks_card_layout_3 .heading-info {
+  text-align: center;
+  padding: 16px 0 6px 0;
+}
+
+@media (max-width: 425px) {
+  .ks_card_layout_3 .head-care {
+    margin: 0 10px;
+  }
+}
+.ks_card_layout_3 .head-care .item-h-center {
+  display: flex;
+  align-items: center;
+  padding: 5px 13px 0;
+  margin: 0;
+}
+@media (max-width: 370px) {
+  .ks_card_layout_3 .head-care .item-h-center .ms-card-font .font-22 {
+    font-size: 18px;
+  }
+}
+.ks_card_layout_3 .head-care .card-left-circle {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.ks_card_layout_3 .head-care .card-left-circle > h2{
+    margin: 0;
+}
+.ks_card_layout_3 .head-care .card-right-circle {
+  position: relative;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  padding: 2px;
+}
+
+.ks_card_layout_3 .head-care .card-right-circle > h2{
+    margin: 0;
+}
+
+.ks_card_layout_3 .head-care .card-right-circle i {
+  font-size: 18px;
+}
+.ks_card_layout_3 .head-care .card-right-circle .position-index {
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  left: -6px;
+  top: 5px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ks_card_layout_3 .head-care .card-left-circle-color-4 {
+  background: #fff;
+  color: #3cc3aa;
+  box-shadow: 0 0 0 3px #f9983e, 0 0 0 6px #fff;
+}
+
+.ks_card_layout_3 .head-care .card-right-circle {
+    box-shadow: inset 0 0 0 2px #fff;
+}
+
+.ks_card_layout_3 .ks_card .item-h-center .ms-card-font > h2 {
+    font-size: 16px;
+}
+
+.ks_no_cards {
+    height: 10px;
+}
+
+.ks_card_label_row .list-panel .list-item > h4 {
+    font-size : 14px;
+}
+
+
+.ks_item_body_layout_4 .center-v-item {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 8px 6px;
+}
+
+.ks_item_body_layout_4 .center-v-item .ks_bl_4_item_data {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 5px 0px;
+    border-radius: 15px;
+}
+
+.ks_item_body_layout_4 .center-v-item .user-point-body{
+    display: flex;
+    justify-content: center;
+}
+
+.ks_item_body_layout_4 .ks_bl_4_rank_value {
+    width: 30px;
+}
+
+.ks_item_body_layout_4 .ks_bl_4_item_data {
+    width: calc(100% - 30px);
+}
+
+/*Layout 5*/
+.ks_item_body_layout_5 {
+    padding: 0 7px;
+}
+.ks_item_body_layout_5 .list-panel {
+    display: flex;
+    text-align: center;
+    min-height: 54px;
+    padding: 0 !important;
+    border-radius: 3px 3px 14px 3px !important;
+    width: 98%;
+    margin: 7px auto !important;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+.ks_item_body_layout_5 .list-head {
+    color: #101010;
+    min-height: 57px !important;
+}
+
+.ks_lb_item_content .ks_item_body_layout_5 .ks_card.leader-board-card {
+    background: transparent;
+}
+
+.ks_item_body_layout_5 .ks_l5_inner_list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    overflow-x: auto;
+}
+
+.ks_item_body_layout_5 .ks_l5_inner_list ul {
+    display: flex;
+    padding: 3px 0;
+    flex: 1;
+}
+
+.ks_item_body_layout_5 .ks_target_container {
+    margin-top: 3px;
+    padding: 0 10px;
+}
+
+.ks_item_body_layout_5 .list-panel .list-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-1 {
+    max-width: 60px;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-1,
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-2 {
+    justify-content: flex-start;
+    flex-direction: unset !important;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-1 > h4 {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-2 > h4 {
+    font-size: 12px;
+    font-weight: 400;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-3 > h4 {
+    font-size: 12px;
+    font-weight: 400;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-3 > h5 {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-2 {
+    padding-left: 10px;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-2 .card-iamge-box {
+    box-sizing: border-box;
+    min-height: 33px;
+    max-height: 33px;
+    min-width: 33px;
+    max-width: 33px;
+    background: #dedede;
+    border-radius: 5px;
+    padding: 1px !important;
+    border: 2px solid #e2e2e2;
+    overflow: hidden;
+    margin: 0;
+    margin-right: 8px;
+}
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-2,
+.ks_item_body_layout_5 .list-panel .list-item.list-panel-3 {
+    max-width: 50%;
+}
+
+.ks_lb_item_search_box >  div {
+    height: calc(100% - 32px);
+    overflow: auto;
+}
+
+.ks_lb_item_search_box .ks_card.leader-board-card:last-child {
+    padding-bottom: 20px;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="item_actions_form_view" model="ir.ui.view">
+            <field name="name">ks_leaderboard.leaderboard.item_actions.form</field>
+            <field name="model">ks_leaderboard.leaderboard.item_actions</field>
+            <field name="arch" type="xml">
+                <form string="Move/Duplicate Items">
+                    <group>
+                        <group>
+                            <field name="ks_lb_item_ids" invisible='1' required="1"/>
+                            <field name="ks_lb_id"
+                                   attrs="{'invisible':[('ks_action','=','duplicate')], 'required':[('ks_action','=','move')]}"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                            <field name="ks_lb_ids" widget='many2many_tags'
+                                   attrs="{'invisible':[('ks_action','=','move')], 'required':[('ks_action','=','duplicate')]}"
+                                   options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="ks_action" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='Save' name="action_item_move_copy_action" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

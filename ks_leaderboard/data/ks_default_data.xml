@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <!--        Default Templates -->
+        <record id="ks_lb_blank" model="ks_leaderboard.leaderboard.default_templates">
+            <field name="name">Blank</field>
+            <field name="ks_lb_item_count">0</field>
+        </record>
+
+
+
+    </data>
+
+</odoo>

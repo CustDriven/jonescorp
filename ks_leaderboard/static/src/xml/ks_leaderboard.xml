@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <!-- Main Container For leaderboard item view -->
+    <t t-name="ks_leaderboard_view_template">
+        <div class="o_ks_leaderboard_view">
+            <div class="ks_lb_header_container"/>
+            <div class="ks_lb_main_content"/>
+        </div>
+    </t>
+
+    <t t-name="ks_lb_header_view">
+        <div class="ks_lb_header d-flex p-3 w-100 bg-white justify-content-between flex-column flex-lg-row">
+            <div id="ks_lb_title">
+                <t t-if="ks_edit_mode">
+                    <input id="ks_lb_title_input" typ="text" maxlength="30"
+                           class="form-control ks_input_header ks_em_element" t-att-value="ks_lb_name"
+                    />
+                </t>
+                <t t-else="">
+                    <span id="ks_lb_title_label" class="ks_am_element">
+                        <t t-esc="ks_lb_name"/>
+                    </span>
+                </t>
+            </div>
+
+
+                <div class="ks_lb_top_menu ks_select_none">
+                    <t t-if="ks_lb_manager and !(ks_edit_mode)">
+
+                        <!-- Add and Edit buttons-->
+                        <div class="ks_lb_top_settings dropdown ">
+
+                            <button id="ks_add_item" class="btn btn-primary mr-1">
+                                <span class="fa fa-lg fa-plus-circle"/>
+                                Add Item
+                            </button>
+
+                            <button id="ks_lb_layout_edit" class="btn btn-primary">
+                                <span class="fa fa-lg fa-pencil"/>
+                                Edit Layout
+                            </button>
+                        </div>
+                    </t>
+                    <t t-elif="ks_edit_mode">
+<!--                                                This should only be shown on : Edit Mode Layout-->
+                        <div class="ks_lb_edit_mode_settings">
+                            <div class="oe_lb_links ">
+                                <button id="ks_lb_save_layout"
+                                        type="button"
+                                        class="button ks_lb_save_layout btn btn-primary o_form_button_save"
+                                        title="Save Changes">
+                                    <span>Save</span>
+                                </button>
+
+                                <button id="ks_lb_cancel_layout"
+                                        type="button"
+                                        class="button ks_lb_cancel_layout btn btn-secondary o_form_button_cancel"
+                                        title="Discard Changes">
+                                    <span>Discard</span>
+                                </button>
+                            </div>
+                        </div>
+                    </t>
+
+                </div>
+        </div>
+    </t>
+
+    <t t-name="ks_lb_item_content_view">
+            <div class="ks_lb_item_container ks_lb_grid_stack grid-stack"/>
+    </t>
+
+    <t t-name="ks_lb_no_view_help">
+        <div class="o_view_nocontent">
+            <div class="o_nocontent_help">
+                <p class="o_view_nocontent_neutral_face">
+                    Your personal Leaderboard is empty
+                </p>
+                <p>
+                    To add Leaderboard item, use <strong>Add button</strong> on top right corner.
+                </p>
+            </div>
+        </div>
+    </t>
+    
+    
+    <t t-name="ks_lb_theme_view">
+        <div class="ks_lb_theme_view_render">
+            <div class="ks_lb_theme_input_container">
+                <input class="ks_lb_theme_input ks_color_white" type="checkbox" name="White Theme"
+                       value="white_black"/>
+                <span class="ks_checkmark"/>
+            </div>
+            <div class="ks_lb_theme_input_container">
+                <input class="ks_lb_theme_input ks_color_blue" type="checkbox" name="Blue Theme" value="blue"/>
+                <span class="ks_checkmark"/>
+            </div>
+            <div class="ks_lb_theme_input_container">
+                <input class="ks_lb_theme_input ks_color_red" type="checkbox" name="Red Theme" value="red"/>
+                <span class="ks_checkmark"/>
+            </div>
+            <div class="ks_lb_theme_input_container">
+                <input class="ks_lb_theme_input ks_color_yellow" type="checkbox" name="Yellow Theme"
+                       value="yellow"/>
+                <span class="ks_checkmark"/>
+            </div>
+            <div class="ks_lb_theme_input_container">
+                <input class="ks_lb_theme_input ks_color_green" type="checkbox" name="Green Theme"
+                       value="green"/>
+                <span class="ks_checkmark"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

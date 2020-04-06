@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <t t-name="ks_leaderboard.ks_card">
+        <div class="ks_card">
+            <div class="ks_rank_section">
+                <t t-esc="ks_card.ks_rank"/>
+            </div>
+            <div class="ks_rank_field_section">
+                <t t-esc="ks_card[rank_field].string"/>
+                :
+                <t t-esc="ks_card[rank_field].value"/>
+            </div>
+            <t t-if="ks_image_field">
+                <div class="ks_lb_card_image">
+                    <img t-att-src="ks_card[ks_image_field].value" alt="Invalid Image Field"/>
+                </div>
+            </t>
+            <div class="ks_other_fields_show">
+                <t t-foreach="other_fields_list" t-as="field">
+                    <span>
+                        <t t-esc="ks_card[field].string"/>
+                        :
+                        <t t-esc="ks_card[field].value"/>
+                    </span>
+                </t>
+            </div>
+
+        </div>
+    </t>
+
+
+    <t t-name="ks_leaderboard.item_body_layout_1">
+        <div class="ks_item_card_container leader-card-body ks_card_layout_1">
+            <!-- <t t-set='item_data' t-value='item_card_list.shift()' /> -->
+            <t t-if="item_card_list and item_card_list.length>0">
+                <t t-foreach="item_card_list" t-as="item_data">
+                    <div class="ks_card leader-board-card">
+                        <ul class="list-panel">
+
+
+                            <t t-if="ks_image_field">
+                                <li class="list-item">
+                                    <div class="card-iamge-box ks_lb_card_image">
+                                        <img t-att-src="item_data[ks_image_field].value" alt="Invalid Image Field"
+                                             class="img-fluid"/>
+                                    </div>
+                                </li>
+                            </t>
+
+                            <t t-foreach="other_fields_list" t-as="field">
+                                <li class="list-item">
+                                    <span class="font-14 ks_rank_field_section ks_overflow_hidden"
+                                          t-att-title="item_data[field].value">
+                                        <t t-esc="item_data[field].value"/>
+                                    </span>
+                                </li>
+                            </t>
+
+                            <li class="list-item">
+                                <span class="font-14 ks_rank_field_section ks_overflow_hidden"
+                                      t-att-title="item_data[rank_field].value">
+                                    <t t-esc="item_data[rank_field].show_value"/>
+                                </span>
+                                <span class="ks_overflow_hidden" t-att-title="item_data[rank_field].string">
+                                    <t t-esc="item_data[rank_field].string"/>
+                                </span>
+                            </li>
+
+                            <li class="list-item font-20">
+                                <t t-if="item_data.ks_rank===2">
+                                    <span style="color:#acacac;">
+                                        <i class="fa fa-trophy"></i>
+                                    </span>
+                                </t>
+                                <t t-elif="item_data.ks_rank===3">
+                                    <span style="color:#d29b44;">
+                                        <i class="fa fa-trophy"></i>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <t t-esc="item_data.ks_rank"/>
+                                </t>
+                            </li>
+                        </ul>
+
+                        <t t-if="ks_target_enabled">
+                            <div class="ks_target_container">
+                                <div class="ks_card_progressbar progress">
+                                    <div class="progress-bar ks_success_bar bg-success" role="progressbar"
+                                         t-att-style="'width:'+item_data.ks_target_status.success_per+'%'"
+                                         t-att-title="item_data.ks_target_status.success_value"/>
+                                    <div t-att-class="item_data.ks_target_status.target_achieved? 'progress-bar ks_target_blue bg-info':'progress-bar ks_target_red bg-danger'"
+                                         role="progressbar"
+                                         t-att-style="'width:'+item_data.ks_target_status.diff_per+'%'"
+                                         t-att-title="item_data.ks_target_status.diff_value"/>
+                                </div>
+                                <div class="ks_target_status_value ks_overflow_hidden" t-att-title="item_data.ks_target_status.diff_per? item_data.ks_target_status.diff_per + ' %': '100 %'">
+                                    <t t-if="item_data.ks_target_status.diff_per">
+                                        <span t-att-class="item_data.ks_target_status.target_achieved? 'fa fa-arrow-up':'fa fa-arrow-down'"/>
+                                        <span class="ks_card_progress_value">
+                                            <t t-esc="item_data.ks_target_status.diff_per + ' %'"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="fa fa-check"/>
+                                        <span class="ks_card_progress_value">
+                                            100 %
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+
+                        </t>
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div class="ks_no_cards"/>
+            </t>
+
+        </div>
+    </t>
+
+
+    <t t-name="ks_leaderboard.item_body_layout_2">
+        <div class="ks_item_card_container leader-card-body ks_card_layout_2">
+            <!-- <t t-set='item_data' t-value='item_card_list.shift()' /> -->
+            <t t-if="item_card_list and item_card_list.length > 0">
+                <t t-set="item_data_x" t-value="item_card_list[0]"/>
+                <div class="ks_card leader-board-card ks_card_label_row">
+                    <ul class="list-panel list-head">
+                        <!-- <li class="list-item list-panel-1">
+                            <h4 class="m-0">Rank</h4>
+                        </li> -->
+                        <t t-if="ks_image_field">
+                            <li class="list-item list-panel-image">
+                            </li>
+                        </t>
+
+                        <t t-foreach="other_fields_list" t-as="field">
+                            <li class="list-item ">
+                                <h4 class="m-0 ks_overflow_hidden" t-att-title="item_data_x[field].string">
+                                    <t t-esc="item_data_x[field].string"/>
+                                </h4>
+                            </li>
+                        </t>
+
+
+                        <li class="list-item">
+                            <h4 class="m-0">
+                                <t t-esc="item_data_x[rank_field].string"/>
+                            </h4>
+                        </li>
+
+                        <li class="list-item">
+                            <h4 class="m-0">Rank</h4>
+                        </li>
+                    </ul>
+                </div>
+            </t>
+
+            <t t-foreach="item_card_list" t-as="item_data">
+                <div class="ks_card leader-board-card">
+                    <ul class="list-panel">
+
+
+                        <t t-if="ks_image_field">
+                            <li class="list-item">
+                                <div class="card-iamge-box ks_lb_card_image">
+                                    <img t-att-src="item_data[ks_image_field].value" alt="Invalid Image Field"
+                                         class="img-fluid"/>
+                                </div>
+                            </li>
+                        </t>
+
+                        <t t-foreach="other_fields_list" t-as="field">
+                            <li class="list-item">
+                                <span class="font-14 ks_rank_field_section ks_overflow_hidden"
+                                      t-att-title="item_data[field].value">
+                                    <t t-esc="item_data[field].value"/>
+                                </span>
+                            </li>
+                        </t>
+
+                        <li class="list-item">
+                            <span class="font-14 ks_rank_field_section" t-att-title="item_data[rank_field].value">
+                                <t t-esc="item_data[rank_field].show_value"/>
+                            </span>
+                        </li>
+
+                        <li class="list-item font-20">
+                            <t t-if="item_data.ks_rank===2">
+                                <span style="color:#acacac;">
+                                    <i class="fa fa-trophy"></i>
+                                </span>
+                            </t>
+                            <t t-elif="item_data.ks_rank===3">
+                                <span style="color:#d29b44;">
+                                    <i class="fa fa-trophy"></i>
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <t t-esc="item_data.ks_rank"/>
+                            </t>
+                        </li>
+                    </ul>
+
+                    <t t-if="ks_target_enabled">
+                        <div class="ks_target_container">
+                            <div class="ks_card_progressbar progress">
+                                <div class="progress-bar ks_success_bar bg-success" role="progressbar"
+                                     t-att-style="'width:'+item_data.ks_target_status.success_per+'%'"
+                                     t-att-title="item_data.ks_target_status.success_value"/>
+                                <div t-att-class="item_data.ks_target_status.target_achieved? 'progress-bar ks_target_blue bg-info':'progress-bar ks_target_red bg-danger'"
+                                     role="progressbar"
+                                     t-att-style="'width:'+item_data.ks_target_status.diff_per+'%'"
+                                     t-att-title="item_data.ks_target_status.diff_value"/>
+                            </div>
+                            <div class="ks_target_status_value ks_overflow_hidden" t-att-title="item_data.ks_target_status.diff_per? item_data.ks_target_status.diff_per + ' %': '100 %'">
+                                <t t-if="item_data.ks_target_status.diff_per">
+                                    <span t-att-class="item_data.ks_target_status.target_achieved? 'fa fa-arrow-up':'fa fa-arrow-down'"/>
+                                    <span class="ks_card_progress_value">
+                                        <t t-esc="item_data.ks_target_status.diff_per + ' %'"/>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <span class="fa fa-check"/>
+                                    <span class="ks_card_progress_value">
+                                        100 %
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+
+
+    <t t-name="ks_leaderboard.item_body_layout_3">
+        <div class="ks_item_card_container leader-card-body ks_card_layout_3">
+            <t t-foreach="item_card_list" t-as="item_data">
+                <div class="ks_card head-care bg-light-blue-100">
+                    <div class="row item-h-center">
+                        <div class="col-3 px-0">
+                            <div class="card-left-circle card-left-circle-color-4">
+                                <t t-if="ks_image_field">
+                                    <img t-att-src="item_data[ks_image_field].value" alt="Invalid Image Field"
+                                         class="img-fluid"/>
+                                </t>
+                                <t t-else="">
+                                    <h2>
+                                        <t t-esc="ks_pic_value"/>
+                                    </h2>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-6 px-0">
+                            <div class="ms-card-font">
+                                <t t-foreach="other_fields_list" t-as="field">
+                                    <h2 class="font-22 ks_overflow_hidden" t-att-title="item_data[field].value">
+                                        <t t-esc="item_data[field].value"/>
+                                    </h2>
+
+                                </t>
+                                <p>
+                                    <span class="ks_overflow_hidden" t-att-title="item_data[rank_field].value">
+                                        <t t-esc="item_data[rank_field].show_value"/>
+                                    </span>
+                                    <span class="ks_overflow_hidden" t-att-title="item_data[rank_field].string">
+                                        <t t-esc="item_data[rank_field].string"/>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-3 px-0">
+                            <div class="card-right-circle bg-perple">
+                                <h2>
+                                    <t t-esc="item_data.ks_rank"/>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <t t-if="ks_target_enabled">
+                        <div class="ks_target_container">
+                            <div class="ks_card_progressbar progress">
+                                <div class="progress-bar ks_success_bar bg-success" role="progressbar"
+                                     t-att-style="'width:'+item_data.ks_target_status.success_per+'%'"
+                                     t-att-title="item_data.ks_target_status.success_value"/>
+                                <div t-att-class="item_data.ks_target_status.target_achieved? 'progress-bar ks_target_blue bg-info':'progress-bar ks_target_red bg-danger'"
+                                     role="progressbar"
+                                     t-att-style="'width:'+item_data.ks_target_status.diff_per+'%'"
+                                     t-att-title="item_data.ks_target_status.diff_value"/>
+                            </div>
+                            <div class="ks_target_status_value ks_overflow_hidden" t-att-title="item_data.ks_target_status.diff_per? item_data.ks_target_status.diff_per + ' %': '100 %'">
+                                <t t-if="item_data.ks_target_status.diff_per">
+                                    <span t-att-class="item_data.ks_target_status.target_achieved? 'fa fa-arrow-up':'fa fa-arrow-down'"/>
+                                    <span class="ks_card_progress_value">
+                                        <t t-esc="item_data.ks_target_status.diff_per + ' %'"/>
+                                    </span>
+                                </t>
+                                <t t-else="">
+                                    <span class="fa fa-check"/>
+                                    <span class="ks_card_progress_value">
+                                        100 %
+                                    </span>
+                                </t>
+                            </div>
+                        </div>
+
+                    </t>
+                </div>
+            </t>
+        </div>
+    </t>
+
+
+    <t t-name="ks_leaderboard.item_body_layout_4">
+        <div class="ks_item_card_container leader-card-body ks_item_body_layout_4">
+            <!-- <t t-set='item_data' t-value='item_card_list.shift()' /> -->
+            <t t-if="item_card_list and item_card_list.length>0">
+                <t t-foreach="item_card_list" t-as="item_data">
+                    <div class="ks_card leader-board-card">
+
+                        <div class="row center-v-item mr-0">
+                            <div class="p-0 ks_bl_4_rank_value">
+                                <div class="user-point-body">
+                                    <h3 class="m-0">
+
+                                        <t t-if="item_data.ks_rank===2">
+                                            <span style="color:#acacac;">
+                                                <i class="fa fa-trophy"></i>
+                                            </span>
+                                        </t>
+                                        <t t-elif="item_data.ks_rank===3">
+                                            <span style="color:#d29b44;">
+                                                <i class="fa fa-trophy"></i>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-esc="item_data.ks_rank"/>
+                                        </t>
+
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="p-0 ks_bl_4_item_data">
+                                <ul class="list-panel">
+
+
+                                    <t t-if="ks_image_field">
+                                        <li class="list-item">
+                                            <div class="card-iamge-box ks_lb_card_image">
+                                                <img t-att-src="item_data[ks_image_field].value"
+                                                     alt="Invalid Image Field"
+                                                     class="img-fluid"/>
+                                            </div>
+                                        </li>
+                                    </t>
+
+                                    <t t-foreach="other_fields_list" t-as="field">
+                                        <li class="list-item">
+                                            <span class="font-14 ks_rank_field_section ks_overflow_hidden"
+                                                  t-att-title="item_data[field].value">
+                                                <t t-esc="item_data[field].value"/>
+                                            </span>
+                                        </li>
+                                    </t>
+
+                                    <li class="list-item">
+                                        <span class="font-14 ks_rank_field_section ks_overflow_hidden"
+                                              t-att-title="item_data[rank_field].value">
+                                            <t t-esc="item_data[rank_field].show_value"/>
+                                        </span>
+                                        <span class="ks_overflow_hidden" t-att-title="item_data[rank_field].string">
+                                            <t t-esc="item_data[rank_field].string"/>
+                                        </span>
+                                    </li>
+                                </ul>
+                                <t t-if="ks_target_enabled">
+                                    <div class="ks_target_container">
+                                        <div class="ks_card_progressbar progress">
+                                            <div class="progress-bar ks_success_bar bg-success" role="progressbar"
+                                                 t-att-style="'width:'+item_data.ks_target_status.success_per+'%'"
+                                                 t-att-title="item_data.ks_target_status.success_value"/>
+                                            <div t-att-class="item_data.ks_target_status.target_achieved? 'progress-bar ks_target_blue bg-info':'progress-bar ks_target_red bg-danger'"
+                                                 role="progressbar"
+                                                 t-att-style="'width:'+item_data.ks_target_status.diff_per+'%'"
+                                                 t-att-title="item_data.ks_target_status.diff_value"/>
+                                        </div>
+                                        <div class="ks_target_status_value ks_overflow_hidden" t-att-title="item_data.ks_target_status.diff_per? item_data.ks_target_status.diff_per + ' %': '100 %'">
+                                            <t t-if="item_data.ks_target_status.diff_per">
+                                                <span t-att-class="item_data.ks_target_status.target_achieved? 'fa fa-arrow-up':'fa fa-arrow-down'"/>
+                                                <span class="ks_card_progress_value">
+                                                    <t t-esc="item_data.ks_target_status.diff_per + ' %'"/>
+                                                </span>
+                                            </t>
+                                            <t t-else="">
+                                                <span class="fa fa-check"/>
+                                                <span class="ks_card_progress_value">
+                                                    100 %
+                                                </span>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                </t>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div class="ks_no_cards"/>
+            </t>
+
+        </div>
+    </t>
+
+
+    <t t-name="ks_leaderboard.item_body_layout_5">
+        <div class="ks_item_body_layout_5">
+            <!-- <t t-set='item_data' t-value='item_card_list.shift()' /> -->
+            <t t-if="item_card_list and item_card_list.length>0">
+                <t t-foreach="item_card_list" t-as="item_data">
+                    <div class="ks_card leader-board-card">
+
+                        <div class="ks_l5_inner_card_div">
+                            <div class="list-panel list-head">
+                                <div class="list-item list-panel-1">
+                                    <h4 class="m-0">
+                                        <t t-esc="item_data.ks_rank"/>
+                                    </h4>
+                                </div>
+                                <div class="ks_l5_inner_list">
+                                    <ul>
+                                        <li class="list-item list-panel-2">
+                                            <t t-if="ks_image_field">
+                                                <div class="card-iamge-box ks_lb_card_image">
+                                                    <img t-att-src="item_data[ks_image_field].value"
+                                                         alt="Invalid Image Field"
+                                                         class="img-fluid"/>
+                                                </div>
+                                            </t>
+
+                                            <t t-foreach="other_fields_list" t-as="field">
+                                                <h4 class="m-0 ks_rank_field_section ks_overflow_hidden"
+                                                    t-att-title="item_data[field].value">
+                                                    <t t-esc="item_data[field].value"/>
+                                                </h4>
+
+                                            </t>
+
+                                        </li>
+                                        <li class="list-item list-panel-3">
+                                            <h4 class="m-0 ks_rank_field_section ks_overflow_hidden"
+                                                t-att-title="item_data[rank_field].value">
+                                                <t t-esc="item_data[rank_field].show_value"/>
+                                            </h4>
+                                            <h5 class="ks_overflow_hidden m-0"
+                                                t-att-title="item_data[rank_field].string">
+                                                <t t-esc="item_data[rank_field].string"/>
+                                            </h5>
+                                        </li>
+                                    </ul>
+                                    <t t-if="ks_target_enabled">
+                                        <div class="ks_target_container">
+                                            <div class="ks_card_progressbar progress">
+                                                <div class="progress-bar ks_success_bar bg-success" role="progressbar"
+                                                     t-att-style="'width:'+item_data.ks_target_status.success_per+'%'"
+                                                     t-att-title="item_data.ks_target_status.success_value"/>
+                                                <div t-att-class="item_data.ks_target_status.target_achieved? 'progress-bar ks_target_blue bg-info':'progress-bar ks_target_red bg-danger'"
+                                                     role="progressbar"
+                                                     t-att-style="'width:'+item_data.ks_target_status.diff_per+'%'"
+                                                     t-att-title="item_data.ks_target_status.diff_value"/>
+                                            </div>
+                                            <div class="ks_target_status_value ks_overflow_hidden" t-att-title="item_data.ks_target_status.diff_per? item_data.ks_target_status.diff_per + ' %': '100 %'">
+                                                <t t-if="item_data.ks_target_status.diff_per">
+                                                    <span t-att-class="item_data.ks_target_status.target_achieved? 'fa fa-arrow-up':'fa fa-arrow-down'"/>
+                                                    <span class="ks_card_progress_value">
+                                                        <t t-esc="item_data.ks_target_status.diff_per + ' %'"/>
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="fa fa-check"/>
+                                                    <span class="ks_card_progress_value">
+                                                        100 %
+                                                    </span>
+                                                </t>
+                                            </div>
+                                        </div>
+
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div class="ks_no_cards"/>
+            </t>
+
+        </div>
+
+    </t>
+
+
+</templates>
