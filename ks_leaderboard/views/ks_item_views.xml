@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="ks_leaderboard.leaderboard_item_form">
+            <field name="name">Leaderboard Item View</field>
+            <field name="model">ks_leaderboard.leaderboard.item</field>
+            <field name="arch" type="xml">
+                <form class="ks_leaderboard_item_form_view">
+                    <sheet>
+                        <group>
+                            <group>
+                                <div class="o_horizontal_separator">General Info</div>
+                                <field name="name"/>
+                                <field name="ks_leaderboard_id" required="1"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="ks_refresh_rate"/>
+
+                                <div class="o_horizontal_separator ks_separator">Item Data</div>
+                                <field name="ks_model_name" invisible="1"/>
+                                <field name="ks_model_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="ks_ranking_field_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="ks_allow_grouping"/>
+                                <field name="ks_group_by_field_id" attrs="{'invisible':[('ks_allow_grouping','=',False)],
+                                    'required':[('ks_allow_grouping','=',True)]}"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="ks_group_by_field_type" invisible="1"/>
+                                <field name="ks_group_by_date_selection" attrs="{'invisible':[('ks_group_by_field_type','not in',['date','datetime'])],
+                                    'required':[('ks_group_by_field_type','in',['date','datetime'])]}"/>
+                                <field name="ks_item_image_field_id" string="Image Field"
+                                       attrs="{'invisible':[('ks_allow_grouping','=',True)]}"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="ks_group_by_field_name" invisible="1"/>
+                                <field name="ks_item_image_relation_field_id" string="Image Field"
+                                       attrs="{'invisible':['|',('ks_allow_grouping','=',False),('ks_group_by_field_type','!=','many2one')]}"
+                                       domain="[('model', '=', ks_group_by_field_name),('store', '=', True),('ttype', '=', 'binary')]"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+
+                                <div class="o_horizontal_separator ks_separator">Filters</div>
+                                <field name="ks_domain" widget="domain"
+                                       options="{'model': 'ks_model_name', 'in_dialog': True}"/>
+                                <field name="ks_date_filter_field_id"
+                                       options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                                <field name="ks_date_filter_selection" required="1"/>
+                                <field name="ks_item_start_date"
+                                       attrs="{'invisible':[('ks_date_filter_selection','!=','l_custom')], 'required':[('ks_date_filter_selection','=','l_custom')]}"/>
+                                <field name="ks_item_end_date"
+                                       attrs="{'invisible':[('ks_date_filter_selection','!=','l_custom')], 'required':[('ks_date_filter_selection','=','l_custom')]}"/>
+                                <field name="ks_record_limit"/>
+                                <field name="ks_ranking_order"/>
+
+                                <div class="o_horizontal_separator ks_separator">Display</div>
+                                <field name="ks_header_layout_display"/>
+                                <field name="ks_body_layout_display"/>
+                                <field name="ks_item_theme_display" widget="ks_lb_item_theme"/>
+                                <field name="ks_item_theme_gradient" required="1"/>
+
+                                <div class="o_horizontal_separator ks_separator">Target</div>
+                                <field name="ks_target_enabled"/>
+                                <field name="ks_target_value"/>
+
+                            </group>
+                            <div class="ks_leaderboard_item_preview_section">
+                                <field name="ks_item_preview" widget="ks_leaderboard_item_preview"
+                                       class="ks_leaderboard_item_preview"/>
+                            </div>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--        Search View Of Leaderboard Items-->
+        <record id="ks_lb_item_search_view" model="ir.ui.view">
+            <field name="name">leaderboard.items.search.view</field>
+            <field name="model">ks_leaderboard.leaderboard.item</field>
+            <field name="arch" type="xml">
+                <search string="Search Items">
+                    <field name="name"
+                           filter_domain="[('name','ilike',self)]"/>
+                    <field name="ks_leaderboard_id"/>
+                    <field name="ks_model_id" filter_domain="[('ks_model_id.model','ilike',self)]"/>
+                    <!--TODO : Add more filter and groupby-->
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Duplicate Items Action-->
+        <record id="ks_leaderboard.ks_action_item_duplicate" model="ir.actions.act_window">
+            <field name="name">Duplicate Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ks_leaderboard.leaderboard.item_actions</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="ks_leaderboard.model_ks_leaderboard_leaderboard_item" />
+            <field name="binding_view_types">list</field>
+            <field name="context">{'default_ks_action':'duplicate'}</field>
+        </record>
+
+
+        <!-- Move Items Action-->
+        <record id="ks_leaderboard.ks_action_item_move" model="ir.actions.act_window">
+            <field name="name">Move Items</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ks_leaderboard.leaderboard.item_actions</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="ks_leaderboard.model_ks_leaderboard_leaderboard_item" />
+            <field name="binding_view_types">list</field>
+            <field name="context">{'default_ks_action':'move'}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ks_leaderboard.leaderboard_item_action">
+            <field name="name">Leaderboard Item</field>
+            <field name="res_model">ks_leaderboard.leaderboard.item</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.actions.act_window" id="ks_leaderboard.leaderboard_item_form_action">
+            <field name="name">Leaderboard Item</field>
+            <field name="res_model">ks_leaderboard.leaderboard.item</field>
+            <field name="view_mode">form</field>
+        </record>
+
+    </data>
+</odoo>

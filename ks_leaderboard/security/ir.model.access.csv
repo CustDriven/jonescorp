@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ks_leaderboard_leaderboard,ks_leaderboard.leaderboard,model_ks_leaderboard_leaderboard,,1,1,1,1
+access_ks_leaderboard_leaderboard_item,ks_leaderboard.leaderboard_item,model_ks_leaderboard_leaderboard_item,,1,1,1,1
+access_ks_leaderboard_leaderboard_default_templates,ks_leaderboard.leaderboard.default_templates,model_ks_leaderboard_leaderboard_default_templates,,1,1,1,1
+access_ks_leaderboard_leaderboard_item_actions,ks_leaderboard_leaderboard_item_actions,model_ks_leaderboard_leaderboard_item_actions,,1,1,1,1

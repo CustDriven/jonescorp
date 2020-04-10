@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="ks_item_preview">
+        <div class="grid-stack-item ks_lb_item_view">
+            <div t-att-class="item_main_body_class.join(' ')">
+
+
+                <div class="ks_lb_item_head">
+
+                    <div class="ks_lb_item_configs ks_lb_slide_up">
+                        <span>
+                            <button class="btn ks_remove_search_container ks_lb_hidden" title="Remove Search"
+                                    t-att-data-id="ks_item_id || false">
+                                <i class="fa fa-arrow-left"/>
+                            </button>
+
+                        </span>
+
+
+                       <t t-if="item_cards.length>0">
+                            <span style="position: relative;width: 100%;">
+                                <input class="ks_item_search_card_input" title="Search Input"
+                                       t-att-data-id="ks_item_id || false">
+                                    <button class="btn ks_search_card_button" title="Search Input"
+                                            t-att-data-id="ks_item_id || false">
+                                        <i class="fa fa-search"/>
+                                    </button>
+                                </input>
+                            </span>
+                        </t>
+
+
+
+
+                        <span>
+                            <button class="btn ks_open_item" title="Open Item Configuration"
+                                    t-att-data-id="ks_item_id || false">
+                                <i class="fa fa-pencil"/>
+                            </button>
+
+                        </span>
+
+                        <span>
+                            <t t-if="ks_lb_list">
+                                <button title="Move/Duplicate" data-toggle="dropdown"
+                                        class="btn dropdown-toggle btn-xs ks_lb_move_duplicate_button" type="button"
+                                        aria-expanded="true">
+                                    <i class="fa fa-files-o"/>
+                                </button>
+                                <ul role="menu" class="ks_bs_dropdown dropdown-menu">
+                                    <li class="ks_md_heading">
+                                        <span>Select Leaderboard</span>
+                                    </li>
+                                    <li class="my-3">
+                                        <select class="o_input o_group_selector o_add_group ks_lb_select">
+                                            <t t-foreach="ks_lb_list" t-as="ks_leaderboard">
+                                                <option t-att-value="ks_leaderboard['id']">
+                                                    <t t-esc="ks_leaderboard['name']"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </li>
+                                    <li class="mt-3">
+                                        <button class="btn btn-primary o_apply_group o_add_group ks_duplicate_item"
+                                                tabindex="-1" type="button" t-att-data-id="ks_item_id || false">Duplicate
+                                        </button>
+                                        <button class="btn btn-primary o_apply_group o_add_group ks_move_item"
+                                                tabindex="-1"
+                                                type="button" t-att-data-id="ks_item_id || false">Move
+                                        </button>
+                                    </li>
+                                </ul>
+                            </t>
+                        </span>
+
+                        <span>
+                            <button class="btn ks_remove_item" t-att-data-id="ks_item_id || false">
+                                <i class="fa fa-times"/>
+                            </button>
+                        </span>
+                    </div>
+
+                    <div class="ks_lb_item_head_content">
+                        <!-- Place Item header content in this section through JS -->
+                        <!-- <t t-call="ks_leaderboard.ks_item_header"/> -->
+                    </div>
+
+                </div>
+                <div class="ks_lb_item_content">
+                    <!-- Place Item content in this section -->
+                    <!-- <t t-call="ks_leaderboard.ks_item_body_content"/> -->
+                </div>
+
+                <div class="ks_lb_item_search_box">
+                    <!-- Place Item Search Content in this section -->
+                </div>
+
+            </div>
+        </div>
+
+    </t>
+
+
+    <t t-name="ks_leaderboard.ks_item_body_content">
+        <div class="ks_item_card_container">
+
+            <t t-foreach="item_cards" t-as="ks_card">
+                <t t-call="ks_leaderboard.ks_card">
+                    <t t-set="ks_card" t-value="ks_card"/>
+                    <!--                    <t t-set="widget" t-value="widget"/>-->
+                    <t t-set="rank_field" t-value="rank_field"/>
+                    <t t-set="other_fields_list" t-value="other_fields_list"/>
+                </t>
+            </t>
+
+        </div>
+    </t>
+
+    <t t-name="ks_leaderboard.empty_item_search_box">
+        <div class="ks_lb_item_search_empty">
+            No Cards Found !!
+        </div>
+    </t>
+
+    <!--    Invalid Fields preview that is shown n preview screen.-->
+    <div t-name="ks_item_invalid_view" class="ks_field_required_widget">
+        <span>Following Fields are required :
+        </span>
+        <ul>
+                <t t-foreach="field_required" t-as="field">
+                    <li>
+                        <t t-esc="field"/>
+                    </li>
+                </t>
+            </ul>
+    </div>
+</templates>

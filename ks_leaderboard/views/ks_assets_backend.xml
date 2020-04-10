@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="Ks Leaderboard assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <!-- CSS -->
+            <link rel="stylesheet" href="/ks_leaderboard/static/src/css/ks_leaderboard.css"/>
+            <link rel="stylesheet" href="/ks_leaderboard/static/src/css/ks_lb_header.css"/>
+            <link rel="stylesheet" href="/ks_leaderboard/static/src/css/ks_lb_item.css"/>
+            <link rel="stylesheet" href="/ks_leaderboard/static/src/css/ks_lb_item_color.css"/>
+            <link rel="stylesheet" href="/ks_leaderboard/static/src/css/ks_lb_item_content.css"/>
+<!--            <link rel="stylesheet" href="/ks_leaderboard/static/lib/gridstack/gridstack.min.css"/>-->
+
+            <!-- JSS  -->
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_leaderboard_api.js"/>
+
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_leaderboard/ks_leaderboard_renderer.js"/>
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_leaderboard/ks_leaderboard_controller.js"/>
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_leaderboard/ks_leaderboard_model.js"/>
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_leaderboard/ks_leaderboard_view.js"/>
+
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_leaderboard_item_widget.js"/>
+            <script type="text/javascript"
+                    src="/ks_leaderboard/static/src/js/ks_lb_item_theme.js"/>
+
+        </xpath>
+    </template>
+</odoo>
