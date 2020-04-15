@@ -22,9 +22,6 @@
     # any module necessary for this one to work correctly
     'depends': ['base', 'sale',  'project', 'stock'],
 
-    # # always loaded
-    'data': ['views/views.xml'],
-
     # 'data': [
     #  # 'security/ir.model.access.csv',
     #      'views/views.xml',
