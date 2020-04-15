@@ -3,19 +3,20 @@ import base64
 from odoo import models, fields, api
 from datetime import date
 
-class Transfer(models.Model):
-    _inherit = 'stock.picking'
-
+class Report(models.AbstractModel):
+    _inherit = 'ir.actions.report'
     @api.model
     def get_report_values(self, docids, data=None):
         # docids: pass from the wizard print button.
-        records = self.env[objectname].browse([self.id])
+        records = self.env[objectname].browse(docids)
         return {
-            'doc_ids': [self.id],
-            'doc_model': 'stock.picking',
+            'doc_ids': docids,
+            'doc_model': objectname,
             'docs': records,
-            'data': data,
-        }                                   
+            'data': data,}
+
+class Transfer(models.Model):
+    _inherit = 'stock.picking'                                  
 
     def print_barcode(self):
         # datas = { 'ids': [self.id],}
