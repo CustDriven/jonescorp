@@ -12,7 +12,8 @@ class Transfer(models.Model):
         res = self.read()
         res = {'move_ids_without_package': self.move_ids_without_package}
         datas = {
-            'ids': [self.id],
+            # 'ids': [self.id],
+            'ids': self.env.context.get('active_ids', []),
             'model': 'stock.picking',
             'form': res,
             'docs': [self.id]
