@@ -8,4 +8,4 @@ class Transfer(models.Model):
 
     def print_barcode(self):
         datas = { 'ids': [self.id],}
-        return self.env['ir.actions.report'].search([('id','=',706)])[0].report_action([], data=datas)
+        return self.env['ir.actions.report'].search([('id','=',706)])[0].report_action([self.id], data=datas)
