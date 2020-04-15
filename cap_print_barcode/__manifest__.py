@@ -4,18 +4,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Base Phone',
+    'name': 'Print Barcode',
     'version': '12.0.1.0.1',
     'category': 'Phone',
-    'license': 'AGPL-3',
     'summary': 'Validate phone numbers',
-    'author': "Akretion,Odoo Community Association (OCA)",
-    'website': 'http://www.akretion.com/',
-    'depends': ['base_setup','product.product'],
-    'external_dependencies': {'python': ['phonenumbers']},
-    'data': [
-        ],
-    'qweb': ['static/src/xml/phone.xml'],
-    'images': [],
+    'author': "Captivea",
+    'depends': ['base_setup'],
     'installable': True,
 }
