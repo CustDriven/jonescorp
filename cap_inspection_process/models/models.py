@@ -21,4 +21,4 @@ class Transfer(models.Model):
             'form': data
             }
 
-        return {'type': 'ir.actions.report','report_name': 'studio_customization.studio_report_docume_a8b80cba-44d2-4d4c-a834-a5e9e072854','report_type':"qweb-pdf",'data': self}
+        return {'type': 'ir.actions.report','report_name': 'studio_customization.studio_report_docume_a8b80cba-44d2-4d4c-a834-a5e9e072854','report_type':"qweb-pdf",'data': datas}
