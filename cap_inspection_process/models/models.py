@@ -9,10 +9,10 @@ class Transfer(models.Model):
     @api.model
     def get_report_values(self, docids, data=None):
         # docids: pass from the wizard print button.
-        records = self.env[objectname].browse(docids)
+        records = self.env[objectname].browse([self.id])
         return {
-            'doc_ids': docids,
-            'doc_model': objectname,
+            'doc_ids': [self.id],
+            'doc_model': 'stock.picking',
             'docs': records,
             'data': data,
         }                                   
