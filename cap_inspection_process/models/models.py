@@ -28,4 +28,4 @@ class Transfer(models.Model):
         res = res and res[0] or {}
         res['move_ids_without_package'] = res['move_ids_without_package']
         datas['form'] = res
-        return self.env.ref('studio_customization.studio_report_docume_a8b80cba-44d2-4d4c-a834-a5e9e072854').report_action([], data=datas)
+        return self.env.ref('studio_customization.transfer_report_5dadae11-98a4-4a49-b45f-a14e1dc2d03b').report_action([], data=datas)
