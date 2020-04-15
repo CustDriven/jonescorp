@@ -6,6 +6,17 @@ from datetime import date
 class Transfer(models.Model):
     _inherit = 'stock.picking'
 
+    @api.model
+    def get_report_values(self, docids, data=None):
+        # docids: pass from the wizard print button.
+        records = self.env[objectname].browse(docids)
+        return {
+            'doc_ids': docids,
+            'doc_model': objectname,
+            'docs': records,
+            'data': data,
+        }                                   
+
     def print_barcode(self):
         # datas = { 'ids': [self.id],}
 
@@ -16,7 +27,7 @@ class Transfer(models.Model):
             # 'ids': self.env.context.get('active_ids', []),
             'model': 'stock.picking',
             'form': res,
-            'docs': [self.id]
+            'doc_ids': [self.id]
             }
         # return self.env['ir.actions.report'].search([('id','=',706)])[0].report_action([self.id], data=datas)
         return self.env.ref('studio_customization.transfer_report_5dadae11-98a4-4a49-b45f-a14e1dc2d03b').report_action(self, data=datas)
