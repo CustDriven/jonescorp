@@ -18,7 +18,7 @@ class Transfer(models.Model):
         datas = {
             'ids': [self.id],
             'model': 'stock.picking',
-            'form': data
+            'form': res
             }
 
         return {'type': 'ir.actions.report','report_name': 'studio_customization.studio_report_docume_a8b80cba-44d2-4d4c-a834-a5e9e072854','report_type':"qweb-pdf",'data': datas}
