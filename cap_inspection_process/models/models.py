@@ -15,10 +15,10 @@ class Transfer(models.Model):
             'ids': [self.id],
             'model': 'stock.picking',
             'form': res,
-            'docs': [self]
+            'docs': [self.id]
             }
         # return self.env['ir.actions.report'].search([('id','=',706)])[0].report_action([self.id], data=datas)
-        return self.env.ref('studio_customization.transfer_report_5dadae11-98a4-4a49-b45f-a14e1dc2d03b').report_action([self.id], data=datas)
+        return self.env.ref('studio_customization.transfer_report_5dadae11-98a4-4a49-b45f-a14e1dc2d03b').report_action([self.id], data=datas, docs=[self])
         # context = self._context
         # [data] = self.read()
         # data['emp'] = self.env.context.get('active_ids', [])
