@@ -8,6 +8,8 @@ class Transfer(models.Model):
 
     def print_barcode(self):
         # datas = { 'ids': [self.id],}
+
+        res = self.read()
         res = {'move_ids_without_package': self.move_ids_without_package}
         datas = {
             'ids': [self.id],
