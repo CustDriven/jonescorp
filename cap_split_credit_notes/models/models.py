@@ -7,7 +7,7 @@ class PaymentInvoiceLine(models.Model):
     _name = 'payment.invoice.line'
     
     payment_id = fields.Many2one('account.payment', string="Payment")
-    invoice_id = fields.Many2one('account.invoice', string="Invoice")
+    invoice_id = fields.Many2one('account.move', string="Invoice")
     invoice = fields.Char(related='invoice_id.number', string="Invoice Number")
     account_id = fields.Many2one(related="invoice_id.account_id", string="Account")
     date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
@@ -29,8 +29,8 @@ class PaymentInvoiceLine(models.Model):
 class InvoiceCreditNoteLine(models.Model):
     _name = 'invoice.creditnote.line'
 
-    invoice_id = fields.Many2one('account.invoice', string="Invoice")
-    credit_note_id = fields.Many2one('account.invoice', string="Credit Note")
+    invoice_id = fields.Many2one('account.move', string="Invoice")
+    credit_note_id = fields.Many2one('account.move', string="Credit Note")
     credit_note = fields.Char(related='credit_note_id.number', string="Credit Note Number")
     account_id = fields.Many2one(related="credit_note_id.account_id", string="Account")
     date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
@@ -51,8 +51,8 @@ class InvoiceCreditNoteLine(models.Model):
 class CreditNoteInvoiceLine(models.Model):
     _name = 'creditnote.invoice.line'
 
-    credit_note_id = fields.Many2one('account.invoice', string="Credit Note")
-    invoice_id = fields.Many2one('account.invoice', string="Invoice")
+    credit_note_id = fields.Many2one('account.move', string="Credit Note")
+    invoice_id = fields.Many2one('account.move', string="Invoice")
     invoice = fields.Char(related='invoice_id.number', string="Invoice Number")
     account_id = fields.Many2one(related="invoice_id.account_id", string="Account")
     date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
@@ -81,12 +81,12 @@ class invoice_registered_payment(models.Model):
     payment_id = fields.Many2one('account.move.line', String="Payment")
     move_id = fields.Many2one('account.move', String="Journal Entry")
     ref = fields.Char(String="Payment Ref")
-    invoice_id = fields.Many2one('account.invoice', String="Invoice")
+    invoice_id = fields.Many2one('account.move', String="Invoice")
     # digits = [69, currency_id.decimal_places],
     # position = currency_id.position,
 
 class account_invoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     credit_note_lines = fields.One2many('invoice.creditnote.line', 'invoice_id', string="Credit Note Lines")
     invoice_lines = fields.One2many('creditnote.invoice.line', 'credit_note_id', string="Invoice Lines")
@@ -117,9 +117,9 @@ class account_invoice(models.Model):
             invoice_ids = []
             credit_note_ids = []
             if self.type == 'out_invoice':
-                credit_note_ids = self.env['account.invoice'].search([('partner_id', 'in', [self.partner_id.id]),('state', '=','open'),('type','=', 'out_refund'),('currency_id', '=', self.currency_id.id)])
+                credit_note_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('state', '=','open'),('type','=', 'out_refund'),('currency_id', '=', self.currency_id.id)])
             if self.type == 'out_refund':
-                invoice_ids = self.env['account.invoice'].search([('partner_id', 'in', [self.partner_id.id]),('state', '=','open'),('type','=', 'out_invoice'),('currency_id', '=', self.currency_id.id)])
+                invoice_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('state', '=','open'),('type','=', 'out_invoice'),('currency_id', '=', self.currency_id.id)])
             # IMPLEMENT FOR VENDOR BILLS
             # if self.payment_type == 'inbound' and self.partner_type == 'customer':
             #     invoice_ids = self.env['account.invoice'].search([('partner_id', 'in', [self.partner_id.id]),
