@@ -8,7 +8,7 @@ class PaymentInvoiceLine(models.Model):
     
     payment_id = fields.Many2one('account.payment', string="Payment")
     invoice_id = fields.Many2one('account.move', string="Invoice")
-    invoice = fields.Char(related='invoice_id.number', string="Invoice Number")
+    invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
     account_id = fields.Many2one(related="invoice_id.account_id", string="Account")
     date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
     due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
@@ -31,7 +31,7 @@ class InvoiceCreditNoteLine(models.Model):
 
     invoice_id = fields.Many2one('account.move', string="Invoice")
     credit_note_id = fields.Many2one('account.move', string="Credit Note")
-    credit_note = fields.Char(related='credit_note_id.number', string="Credit Note Number")
+    credit_note = fields.Char(related='credit_note_id.name', string="Credit Note Number")
     account_id = fields.Many2one(related="credit_note_id.account_id", string="Account")
     date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
     due_date = fields.Date(string='Due Date', compute='_get_credit_note_data', store=True)
@@ -53,7 +53,7 @@ class CreditNoteInvoiceLine(models.Model):
 
     credit_note_id = fields.Many2one('account.move', string="Credit Note")
     invoice_id = fields.Many2one('account.move', string="Invoice")
-    invoice = fields.Char(related='invoice_id.number', string="Invoice Number")
+    invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
     account_id = fields.Many2one(related="invoice_id.account_id", string="Account")
     date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
     due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
