@@ -17,7 +17,6 @@ class PaymentInvoiceLine(models.Model):
     allocation = fields.Float(string='Allocation Amount')
     discount = fields.Float(string='Discount Amount')
     
-    @api.multi
     @api.depends('invoice_id')
     def _get_invoice_data(self):
         for data in self:
@@ -40,7 +39,6 @@ class InvoiceCreditNoteLine(models.Model):
     open_amount = fields.Float(string='Due Amount', compute='_get_credit_note_data', store=True)
     allocation = fields.Float(string='Allocation Amount')
 
-    @api.multi
     @api.depends('credit_note_id')
     def _get_credit_note_data(self):
         for data in self:
@@ -63,7 +61,6 @@ class CreditNoteInvoiceLine(models.Model):
     open_amount = fields.Float(string='Due Amount', compute='_get_invoice_data', store=True)
     allocation = fields.Float(string='Allocation Amount')
 
-    @api.multi
     @api.depends('invoice_id')
     def _get_invoice_data(self):
         for data in self:
@@ -96,7 +93,6 @@ class account_invoice(models.Model):
     registered_payments = fields.One2many('account.invoice.payment.registered', 'invoice_id', String="Payments Registered")
     # , compute="_get_payments_registered_in_invoice", store=True
 
-    @api.multi
     def update_invoice_and_credit_note_lines(self):
         for inv in self.credit_note_lines:
             inv.open_amount = inv.invoice_id.residual
@@ -148,7 +144,6 @@ class account_invoice(models.Model):
             self.credit_note_lines = credit_note_lines
             # self.onchnage_amount()
         
-    @api.multi
     def register_new_payment(self):
         if self.type == 'out_invoice':
             invoice = self
@@ -361,7 +356,6 @@ class account_invoice(models.Model):
     #             remain -= line.allocation
     #         total += line.allocation
 
-    @api.multi
     @api.depends('residual')
     @api.depends('payment_move_line_ids.amount_residual')
     def _get_payments_registered_in_invoice(self):
