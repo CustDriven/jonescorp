@@ -307,7 +307,7 @@ class AccountInvoice(models.Model):
                                     unreconciled_amt += line.credit
                             if unreconciled_amt >= inv.allocation:
                                 move = inv.invoice_id
-                                move..with_context(check_move_validity=False).button_draft()
+                                move.with_context(check_move_validity=False).button_draft()
                                 move.with_context(check_move_validity=False).button_cancel()
 
                                 payment_line = self.env['account.move.line'].with_context(check_move_validity=False).create(p_data)
