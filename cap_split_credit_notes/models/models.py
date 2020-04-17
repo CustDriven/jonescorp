@@ -43,7 +43,7 @@ class InvoiceCreditNoteLine(models.Model):
     def _get_credit_note_data(self):
         for data in self:
             credit_note_id = data.credit_note_id
-            data.date = credit_note_id.date_invoice
+            data.date = credit_note_id.invoice_date
             data.due_date = credit_note_id.date_due
             data.total_amount = credit_note_id.amount_total 
             data.open_amount = credit_note_id.residual
@@ -65,7 +65,7 @@ class CreditNoteInvoiceLine(models.Model):
     def _get_invoice_data(self):
         for data in self:
             invoice_id = data.invoice_id
-            data.date = invoice_id.date_invoice
+            data.date = invoice_id.invoice_date
             data.due_date = invoice_id.date_due
             data.total_amount = invoice_id.amount_total 
             data.open_amount = invoice_id.residual
