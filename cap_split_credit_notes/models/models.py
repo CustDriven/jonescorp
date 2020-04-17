@@ -17,14 +17,14 @@ from odoo.tools import float_is_zero
 #     allocation = fields.Float(string='Allocation Amount')
 #     discount = fields.Float(string='Discount Amount')
     
-    @api.depends('invoice_id')
-    def _get_invoice_data(self):
-        for data in self:
-            invoice_id = data.invoice_id
-            data.date = invoice_id.date_invoice
-            data.due_date = invoice_id.date_due
-            data.total_amount = invoice_id.amount_total 
-            data.open_amount = invoice_id.residual
+    # @api.depends('invoice_id')
+    # def _get_invoice_data(self):
+    #     for data in self:
+    #         invoice_id = data.invoice_id
+    #         data.date = invoice_id.date_invoice
+    #         data.due_date = invoice_id.date_due
+    #         data.total_amount = invoice_id.amount_total 
+    #         data.open_amount = invoice_id.residual
 
 class InvoiceCreditNoteLine(models.Model):
     _name = 'invoice.creditnote.line'
