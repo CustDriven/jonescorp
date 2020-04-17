@@ -165,20 +165,21 @@ class AccountInvoice(models.Model):
                                 move_line = line
                                 break
                         if move_line:
-                            # move = cn.credit_note_id
-                            # move.button_cancel()
+                            move = cn.credit_note_id
+                            move.with_context(check_move_validity=False).button_draft()
+                            move.with_context(check_move_validity=False).button_cancel()
 
-                            payment_line = self.env['account.move.line'].create(p_data)
-                            # self.env.cr.commit()
+                            payment_line = self.env['account.move.line'].with_context(check_move_validity=False).create(p_data)
+                            self.env.cr.commit()
 
                             
                             
-                            # move_line.with_context(check_move_validity=False).write({'credit': move_line.credit - cn.allocation})
-                            # payment_line.with_context(check_move_validity=False).write({'credit': cn.allocation})
+                            move_line.with_context(check_move_validity=False).write({'credit': move_line.credit - cn.allocation})
+                            payment_line.with_context(check_move_validity=False).write({'credit': cn.allocation})
 
-                            # self.env.cr.commit()
+                            self.env.cr.commit()
 
-                            # move.action_post()
+                            move.with_context(check_move_validity=False).action_post()
 
                             # self['payment_move_line_ids'] = [(4, payment_line.id)]
                             # self.env.cr.commit()
@@ -204,28 +205,29 @@ class AccountInvoice(models.Model):
                                 else:
                                     accounts.append("Line account: " + str(line.account_id.id) + "; Invoice account: " + str(self.company_id.partner_id.property_account_receivable_id.id) + "; Is reconciled: " + str(line.reconciled) + "\n")
                             if unreconciled_amt >= cn.allocation:
-                                # move = cn.credit_note_id
-                                # move.button_cancel()
+                                move = cn.credit_note_id
+                                move.with_context(check_move_validity=False).button_draft()
+                                move.with_context(check_move_validity=False).button_cancel()
 
-                                payment_line = self.env['account.move.line'].create(p_data)
-                                # self.env.cr.commit()
-                                # amt_left = cn.allocation
-                                # for line in cn.credit_note_id.line_ids:
-                                #     if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
-                                #         if amt_left <= 0:
-                                #             break
-                                #         else:
-                                #             if amt_left <= line.credit:
-                                #                 cred = line.credit
-                                #                 line.with_context(check_move_validity=False).write({'credit': cred - amt_left})
-                                #                 amt_left -= cred
-                                #             else:
-                                #                 cred = line.credit
-                                #                 line.with_context(check_move_validity=False).write({'credit': 0})
-                                #                 amt_left -= cred
-                                # payment_line.with_context(check_move_validity=False).write({'credit': cn.allocation})
-                                # self.env.cr.commit()
-                                # move.action_post()
+                                payment_line = self.env['account.move.line'].with_context(check_move_validity=False).create(p_data)
+                                self.env.cr.commit()
+                                amt_left = cn.allocation
+                                for line in cn.credit_note_id.line_ids:
+                                    if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
+                                        if amt_left <= 0:
+                                            break
+                                        else:
+                                            if amt_left <= line.credit:
+                                                cred = line.credit
+                                                line.with_context(check_move_validity=False).write({'credit': cred - amt_left})
+                                                amt_left -= cred
+                                            else:
+                                                cred = line.credit
+                                                line.with_context(check_move_validity=False).write({'credit': 0})
+                                                amt_left -= cred
+                                payment_line.with_context(check_move_validity=False).write({'credit': cn.allocation})
+                                self.env.cr.commit()
+                                move.with_context(check_move_validity=False).action_post()
 
                                 # self['payment_move_line_ids'] = [(4, payment_line.id)]
                                 # self.env.cr.commit()
@@ -245,11 +247,11 @@ class AccountInvoice(models.Model):
                                 raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(cn.allocation, 2))))         
                         
                         move = cn.credit_note_id
-                        move.button_cancel()
+                        move.with_context(check_move_validity=False).button_cancel()
                         for line in cn.credit_note_id.line_ids:
                             if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
-                                line.unlink()
-                        move.action_post()
+                                line.with_context(check_move_validity=False).unlink()
+                        move.with_context(check_move_validity=False).action_post()
 
         if self.type == 'out_refund':
             credit_note = self
@@ -271,17 +273,18 @@ class AccountInvoice(models.Model):
                                 move_line = line
                                 break
                         if move_line:
-                            # move = self
-                            # move.button_cancel()
+                            move = self
+                            move.with_context(check_move_validity=False).button_draft()
+                            move.with_context(check_move_validity=False).button_cancel()
 
-                            payment_line = self.env['account.move.line'].create(p_data)
-                            # self.env.cr.commit()
+                            payment_line = self.env['account.move.line'].with_context(check_move_validity=False).create(p_data)
+                            self.env.cr.commit()
 
-                            # move_line.with_context(check_move_validity=False).write({'credit': move_line.credit - inv.allocation})
-                            # payment_line.with_context(check_move_validity=False).write({'credit': inv.allocation})
-                            # self.env.cr.commit()
+                            move_line.with_context(check_move_validity=False).write({'credit': move_line.credit - inv.allocation})
+                            payment_line.with_context(check_move_validity=False).write({'credit': inv.allocation})
+                            self.env.cr.commit()
 
-                            # move.action_post()
+                            move.with_context(check_move_validity=False).action_post()
 
                             # inv.invoice_id['payment_move_line_ids'] = [(4, payment_line.id)]
                             # self.env.cr.commit()
@@ -303,28 +306,29 @@ class AccountInvoice(models.Model):
                                 if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                     unreconciled_amt += line.credit
                             if unreconciled_amt >= inv.allocation:
-                                # move = inv.invoice_id
-                                # move.button_cancel()
+                                move = inv.invoice_id
+                                move..with_context(check_move_validity=False).button_draft()
+                                move.with_context(check_move_validity=False).button_cancel()
 
-                                payment_line = self.env['account.move.line'].create(p_data)
-                                # self.env.cr.commit()
-                                # amt_left = inv.allocation
-                                # for line in self.line_ids:
-                                #     if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
-                                #         if amt_left <= 0:
-                                #             break
-                                #         else:
-                                #             if amt_left <= line.credit:
-                                #                 cred = line.credit
-                                #                 line.with_context(check_move_validity=False).write({'credit': cred - amt_left})
-                                #                 amt_left -= cred
-                                #             else:
-                                #                 cred = line.credit
-                                #                 line.with_context(check_move_validity=False).write({'credit': 0})
-                                #                 amt_left -= cred
-                                # payment_line.with_context(check_move_validity=False).write({'credit': inv.allocation})
-                                # self.env.cr.commit()
-                                # move.action_post()
+                                payment_line = self.env['account.move.line'].with_context(check_move_validity=False).create(p_data)
+                                self.env.cr.commit()
+                                amt_left = inv.allocation
+                                for line in self.line_ids:
+                                    if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
+                                        if amt_left <= 0:
+                                            break
+                                        else:
+                                            if amt_left <= line.credit:
+                                                cred = line.credit
+                                                line.with_context(check_move_validity=False).write({'credit': cred - amt_left})
+                                                amt_left -= cred
+                                            else:
+                                                cred = line.credit
+                                                line.with_context(check_move_validity=False).write({'credit': 0})
+                                                amt_left -= cred
+                                payment_line.with_context(check_move_validity=False).write({'credit': inv.allocation})
+                                self.env.cr.commit()
+                                move.with_context(check_move_validity=False).action_post()
 
                                 # inv.invoice_id['payment_move_line_ids'] = [(4, payment_line.id)]
                                 # self.env.cr.commit()
@@ -344,11 +348,11 @@ class AccountInvoice(models.Model):
                                 raise ValidationError(("Allocated amount for Invoice " + str(inv.invoice) + " is greater than the invoice due amount. Invoice due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(inv.allocation, 2))))         
                         
                         move = self
-                        move.button_cancel()
+                        move.with_context(check_move_validity=False).button_cancel()
                         for line in self.line_ids:
                             if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
-                                line.unlink()
-                        move.action_post()
+                                line.with_context(check_move_validity=False).unlink()
+                        move.with_context(check_move_validity=False).action_post()
         self.update_invoice_and_credit_note_lines()  
 
 
