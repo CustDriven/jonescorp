@@ -168,7 +168,7 @@ class AccountInvoice(models.Model):
                             # move = cn.credit_note_id
                             # move.button_cancel()
 
-                            # payment_line = self.env['account.move.line'].create(p_data)
+                            payment_line = self.env['account.move.line'].create(p_data)
                             # self.env.cr.commit()
 
                             
@@ -207,7 +207,7 @@ class AccountInvoice(models.Model):
                                 # move = cn.credit_note_id
                                 # move.button_cancel()
 
-                                # payment_line = self.env['account.move.line'].create(p_data)
+                                payment_line = self.env['account.move.line'].create(p_data)
                                 # self.env.cr.commit()
                                 # amt_left = cn.allocation
                                 # for line in cn.credit_note_id.line_ids:
@@ -274,7 +274,7 @@ class AccountInvoice(models.Model):
                             # move = self
                             # move.button_cancel()
 
-                            # payment_line = self.env['account.move.line'].create(p_data)
+                            payment_line = self.env['account.move.line'].create(p_data)
                             # self.env.cr.commit()
 
                             # move_line.with_context(check_move_validity=False).write({'credit': move_line.credit - inv.allocation})
@@ -306,7 +306,7 @@ class AccountInvoice(models.Model):
                                 # move = inv.invoice_id
                                 # move.button_cancel()
 
-                                # payment_line = self.env['account.move.line'].create(p_data)
+                                payment_line = self.env['account.move.line'].create(p_data)
                                 # self.env.cr.commit()
                                 # amt_left = inv.allocation
                                 # for line in self.line_ids:
