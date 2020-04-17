@@ -180,12 +180,12 @@ class AccountInvoice(models.Model):
 
                             move.action_post()
 
-                            self['payment_move_line_ids'] = [(4, payment_line.id)]
-                            self.env.cr.commit()
+                            # self['payment_move_line_ids'] = [(4, payment_line.id)]
+                            # self.env.cr.commit()
                             
-                            for p in invoice.payment_move_line_ids:
-                                if p.id == payment_line.id:
-                                    invoice.register_payment(p)
+                            # for p in invoice.payment_move_line_ids:
+                            #     if p.id == payment_line.id:
+                            invoice.register_payment(p)
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
@@ -219,12 +219,12 @@ class AccountInvoice(models.Model):
                                 self.env.cr.commit()
                                 move.action_post()
 
-                                self['payment_move_line_ids'] = [(4, payment_line.id)]
-                                self.env.cr.commit()
+                                # self['payment_move_line_ids'] = [(4, payment_line.id)]
+                                # self.env.cr.commit()
                                 
-                                for p in invoice.payment_move_line_ids:
-                                    if p.id == payment_line.id:
-                                        invoice.register_payment(p)
+                                # for p in invoice.payment_move_line_ids:
+                                #     if p.id == payment_line.id:
+                                invoice.register_payment(p)
                                 self.env.cr.commit()
                             else:
                                 raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(cn.allocation, 2))))         
@@ -268,12 +268,12 @@ class AccountInvoice(models.Model):
 
                             move.action_post()
 
-                            inv.invoice_id['payment_move_line_ids'] = [(4, payment_line.id)]
-                            self.env.cr.commit()
+                            # inv.invoice_id['payment_move_line_ids'] = [(4, payment_line.id)]
+                            # self.env.cr.commit()
                             
-                            for p in inv.invoice_id.payment_move_line_ids:
-                                if p.id == payment_line.id:
-                                    inv.invoice_id.register_payment(p)
+                            # for p in inv.invoice_id.payment_move_line_ids:
+                            #     if p.id == payment_line.id:
+                            inv.invoice_id.register_payment(p)
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
@@ -304,12 +304,12 @@ class AccountInvoice(models.Model):
                                 self.env.cr.commit()
                                 move.action_post()
 
-                                inv.invoice_id['payment_move_line_ids'] = [(4, payment_line.id)]
-                                self.env.cr.commit()
+                                # inv.invoice_id['payment_move_line_ids'] = [(4, payment_line.id)]
+                                # self.env.cr.commit()
                                 
-                                for p in inv.invoice_id.payment_move_line_ids:
-                                    if p.id == payment_line.id:
-                                        inv.invoice_id.register_payment(p)
+                                # for p in inv.invoice_id.payment_move_line_ids:
+                                #     if p.id == payment_line.id:
+                                inv.invoice_id.register_payment(p)
                                 self.env.cr.commit()
                             else:
                                 raise ValidationError(("Allocated amount for Invoice " + str(inv.invoice) + " is greater than the invoice due amount. Invoice due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(inv.allocation, 2))))         
@@ -356,54 +356,54 @@ class AccountInvoice(models.Model):
     #             remain -= line.allocation
     #         total += line.allocation
 
-    @api.depends('amount_residual')
-    @api.depends('payment_move_line_ids.amount_residual')
-    def _get_payments_registered_in_invoice(self):
-        for s in self:
-            if s.payment_move_line_ids:
-                for pa in s.registered_payments:
-                    pa.unlink()
-                # info = {'title': _('Less Payment'), 'outstanding': False, 'content': []}
-                payments_registered = []
-                currency_id = s.currency_id
-                for payment in s.payment_move_line_ids:
-                    payment_currency_id = False
-                    if s.type in ('out_invoice', 'in_refund'):
-                        amount = sum([p.amount for p in payment.matched_debit_ids if p.debit_move_id in s.line_ids])
-                        amount_currency = sum([p.amount_currency for p in payment.matched_debit_ids if p.debit_move_id in s.line_ids])
-                        if payment.matched_debit_ids:
-                            payment_currency_id = all([p.currency_id == payment.matched_debit_ids[0].currency_id for p in payment.matched_debit_ids]) and payment.matched_debit_ids[0].currency_id or False
-                    elif s.type in ('in_invoice', 'out_refund'):
-                        amount = sum([p.amount for p in payment.matched_credit_ids if p.credit_move_id in s.line_ids])
-                        amount_currency = sum([p.amount_currency for p in payment.matched_credit_ids if p.credit_move_id in s.line_ids])
-                        if payment.matched_credit_ids:
-                            payment_currency_id = all([p.currency_id == payment.matched_credit_ids[0].currency_id for p in payment.matched_credit_ids]) and payment.matched_credit_ids[0].currency_id or False
-                    # get the payment value in invoice currency
-                    if payment_currency_id and payment_currency_id == s.currency_id:
-                        amount_to_show = amount_currency
-                    else:
-                        # amount_to_show = payment.company_id.currency_id.with_context(date=payment.date).compute(amount, s.currency_id)
-                        amount_to_show = amount
-                    if float_is_zero(amount_to_show, precision_rounding=s.currency_id.rounding):
-                        continue
-                    payment_ref = payment.move_id.name
-                    if payment.move_id.ref:
-                        payment_ref += ' (' + payment.move_id.ref + ')'
+    # @api.depends('payment_move_line_ids.amount_residual')
+    # @api.depends('amount_residual')
+    # def _get_payments_registered_in_invoice(self):
+    #     for s in self:
+    #         if s.payment_move_line_ids:
+    #             for pa in s.registered_payments:
+    #                 pa.unlink()
+    #             # info = {'title': _('Less Payment'), 'outstanding': False, 'content': []}
+    #             payments_registered = []
+    #             currency_id = s.currency_id
+    #             for payment in s.payment_move_line_ids:
+    #                 payment_currency_id = False
+    #                 if s.type in ('out_invoice', 'in_refund'):
+    #                     amount = sum([p.amount for p in payment.matched_debit_ids if p.debit_move_id in s.line_ids])
+    #                     amount_currency = sum([p.amount_currency for p in payment.matched_debit_ids if p.debit_move_id in s.line_ids])
+    #                     if payment.matched_debit_ids:
+    #                         payment_currency_id = all([p.currency_id == payment.matched_debit_ids[0].currency_id for p in payment.matched_debit_ids]) and payment.matched_debit_ids[0].currency_id or False
+    #                 elif s.type in ('in_invoice', 'out_refund'):
+    #                     amount = sum([p.amount for p in payment.matched_credit_ids if p.credit_move_id in s.line_ids])
+    #                     amount_currency = sum([p.amount_currency for p in payment.matched_credit_ids if p.credit_move_id in s.line_ids])
+    #                     if payment.matched_credit_ids:
+    #                         payment_currency_id = all([p.currency_id == payment.matched_credit_ids[0].currency_id for p in payment.matched_credit_ids]) and payment.matched_credit_ids[0].currency_id or False
+    #                 # get the payment value in invoice currency
+    #                 if payment_currency_id and payment_currency_id == s.currency_id:
+    #                     amount_to_show = amount_currency
+    #                 else:
+    #                     # amount_to_show = payment.company_id.currency_id.with_context(date=payment.date).compute(amount, s.currency_id)
+    #                     amount_to_show = amount
+    #                 if float_is_zero(amount_to_show, precision_rounding=s.currency_id.rounding):
+    #                     continue
+    #                 payment_ref = payment.move_id.name
+    #                 if payment.move_id.ref:
+    #                     payment_ref += ' (' + payment.move_id.ref + ')'
 
-                    payment_data = ({
-                        'name': payment.name,
-                        'journal_name': payment.journal_id.name,
-                        'amount': amount_to_show,
-                        'currency': currency_id.symbol,
-                        'date': payment.date,
-                        'payment_id': payment.id,
-                        'move_id': payment.move_id.id,
-                        'invoice_id': s.id,
-                        'ref': payment_ref,
-                    })
+    #                 payment_data = ({
+    #                     'name': payment.name,
+    #                     'journal_name': payment.journal_id.name,
+    #                     'amount': amount_to_show,
+    #                     'currency': currency_id.symbol,
+    #                     'date': payment.date,
+    #                     'payment_id': payment.id,
+    #                     'move_id': payment.move_id.id,
+    #                     'invoice_id': s.id,
+    #                     'ref': payment_ref,
+    #                 })
 
-                    p = self.env['account.invoice.payment.registered'].create(payment_data)
-                    self.env.cr.commit()
+    #                 p = self.env['account.invoice.payment.registered'].create(payment_data)
+    #                 self.env.cr.commit()
 
                 # payments_registered.append(p.id)
             # self.registered_payments = [(6, 0, payments_registered)]
