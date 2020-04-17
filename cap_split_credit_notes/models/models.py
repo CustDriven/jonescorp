@@ -161,14 +161,14 @@ class AccountInvoice(models.Model):
             else:
                 for cn in self.credit_note_lines:
                     if cn.allocation > 0:
-                        p_data = {'account_id': self.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'invoice_id': cn.credit_note_id.id, 'move_id': cn.credit_note_id.move_id.id}
+                        p_data = {'account_id': self.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'move_id': cn.credit_note_id.id}
                         move_line = False
-                        for line in cn.credit_note_id.move_id.line_ids:
+                        for line in cn.credit_note_id.line_ids:
                             if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit >= cn.allocation:
                                 move_line = line
                                 break
                         if move_line:
-                            move = cn.credit_note_id.move_id
+                            move = cn.credit_note_id
                             move.button_cancel()
 
                             payment_line = self.env['account.move.line'].create(p_data)
@@ -192,17 +192,17 @@ class AccountInvoice(models.Model):
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
-                            for line in cn.credit_note_id.move_id.line_ids:
+                            for line in cn.credit_note_id.line_ids:
                                 if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                     unreconciled_amt += line.credit
                             if unreconciled_amt >= cn.allocation:
-                                move = cn.credit_note_id.move_id
+                                move = cn.credit_note_id
                                 move.button_cancel()
 
                                 payment_line = self.env['account.move.line'].create(p_data)
                                 self.env.cr.commit()
                                 amt_left = cn.allocation
-                                for line in cn.credit_note_id.move_id.line_ids:
+                                for line in cn.credit_note_id.line_ids:
                                     if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                         if amt_left <= 0:
                                             break
@@ -229,9 +229,9 @@ class AccountInvoice(models.Model):
                             else:
                                 raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
                         
-                        move = cn.credit_note_id.move_id
+                        move = cn.credit_note_id
                         move.button_cancel()
-                        for line in cn.credit_note_id.move_id.line_ids:
+                        for line in cn.credit_note_id.line_ids:
                             if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
                                 line.unlink()
                         move.action_post()
@@ -249,14 +249,14 @@ class AccountInvoice(models.Model):
             else:
                 for inv in self.invoice_lines:
                     if inv.allocation > 0:
-                        p_data = {'account_id': inv.invoice_id.company_id.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'invoice_id': self.id, 'move_id': self.move_id.id}
+                        p_data = {'account_id': inv.invoice_id.company_id.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'move_id': self.id}
                         move_line = False
-                        for line in self.move_id.line_ids:
+                        for line in self.line_ids:
                             if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit >= inv.allocation:
                                 move_line = line
                                 break
                         if move_line:
-                            move = self.move_id
+                            move = self
                             move.button_cancel()
 
                             payment_line = self.env['account.move.line'].create(p_data)
@@ -277,17 +277,17 @@ class AccountInvoice(models.Model):
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
-                            for line in self.move_id.line_ids:
+                            for line in self.line_ids:
                                 if line.account_id.id == inv.invoice_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                     unreconciled_amt += line.credit
                             if unreconciled_amt >= inv.allocation:
-                                move = inv.invoice_id.move_id
+                                move = inv.invoice_id
                                 move.button_cancel()
 
                                 payment_line = self.env['account.move.line'].create(p_data)
                                 self.env.cr.commit()
                                 amt_left = inv.allocation
-                                for line in self.move_id.line_ids:
+                                for line in self.line_ids:
                                     if line.account_id.id == inv.invoice_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                         if amt_left <= 0:
                                             break
@@ -314,9 +314,9 @@ class AccountInvoice(models.Model):
                             else:
                                 raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
                         
-                        move = self.move_id
+                        move = self
                         move.button_cancel()
-                        for line in self.move_id.line_ids:
+                        for line in self.line_ids:
                             if line.account_id.id == inv.invoice_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
                                 line.unlink()
                         move.action_post()
@@ -369,13 +369,13 @@ class AccountInvoice(models.Model):
                 for payment in s.payment_move_line_ids:
                     payment_currency_id = False
                     if s.type in ('out_invoice', 'in_refund'):
-                        amount = sum([p.amount for p in payment.matched_debit_ids if p.debit_move_id in s.move_id.line_ids])
-                        amount_currency = sum([p.amount_currency for p in payment.matched_debit_ids if p.debit_move_id in s.move_id.line_ids])
+                        amount = sum([p.amount for p in payment.matched_debit_ids if p.debit_move_id in s.line_ids])
+                        amount_currency = sum([p.amount_currency for p in payment.matched_debit_ids if p.debit_move_id in s.line_ids])
                         if payment.matched_debit_ids:
                             payment_currency_id = all([p.currency_id == payment.matched_debit_ids[0].currency_id for p in payment.matched_debit_ids]) and payment.matched_debit_ids[0].currency_id or False
                     elif s.type in ('in_invoice', 'out_refund'):
-                        amount = sum([p.amount for p in payment.matched_credit_ids if p.credit_move_id in s.move_id.line_ids])
-                        amount_currency = sum([p.amount_currency for p in payment.matched_credit_ids if p.credit_move_id in s.move_id.line_ids])
+                        amount = sum([p.amount for p in payment.matched_credit_ids if p.credit_move_id in s.line_ids])
+                        amount_currency = sum([p.amount_currency for p in payment.matched_credit_ids if p.credit_move_id in s.line_ids])
                         if payment.matched_credit_ids:
                             payment_currency_id = all([p.currency_id == payment.matched_credit_ids[0].currency_id for p in payment.matched_credit_ids]) and payment.matched_credit_ids[0].currency_id or False
                     # get the payment value in invoice currency
