@@ -32,7 +32,7 @@ class InvoiceCreditNoteLine(models.Model):
     invoice_id = fields.Many2one('account.move', string="Invoice")
     credit_note_id = fields.Many2one('account.move', string="Credit Note")
     credit_note = fields.Char(related='credit_note_id.name', string="Credit Note Number")
-    account_id = fields.Many2one(related="credit_note_id.company_id.property_account_receivable_id", string="Account")
+    account_id = fields.Many2one(related="credit_note_id..partner_id.property_account_receivable_id", string="Account")
     date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
     due_date = fields.Date(string='Due Date', compute='_get_credit_note_data', store=True)
     total_amount = fields.Float(string='Total Amount', compute='_get_credit_note_data', store=True)
@@ -54,7 +54,7 @@ class CreditNoteInvoiceLine(models.Model):
     credit_note_id = fields.Many2one('account.move', string="Credit Note")
     invoice_id = fields.Many2one('account.move', string="Invoice")
     invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
-    account_id = fields.Many2one(related="invoice_id.company_id.property_account_receivable_id", string="Account")
+    account_id = fields.Many2one(related="invoice_id.company_id.partner_id.property_account_receivable_id", string="Account")
     date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
     due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
     total_amount = fields.Float(string='Total Amount', compute='_get_invoice_data', store=True)
@@ -249,10 +249,10 @@ class account_invoice(models.Model):
             else:
                 for inv in self.invoice_lines:
                     if inv.allocation > 0:
-                        p_data = {'account_id': inv.invoice_id.account_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'invoice_id': self.id, 'move_id': self.move_id.id}
+                        p_data = {'account_id': inv.invoice_id.company_id.partner_id.property_account_receivable_id.account_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'invoice_id': self.id, 'move_id': self.move_id.id}
                         move_line = False
                         for line in self.move_id.line_ids:
-                            if line.account_id.id == inv.invoice_id.account_id.id and line.reconciled == False and line.credit >= inv.allocation:
+                            if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.account_id.id and line.reconciled == False and line.credit >= inv.allocation:
                                 move_line = line
                                 break
                         if move_line:
