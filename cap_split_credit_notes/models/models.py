@@ -187,7 +187,7 @@ class AccountInvoice(models.Model):
                             #     if p.id == payment_line.id:
                             # invoice.register_payment(p)
 
-                            lines = self.env['account.move.line'].browse(payment_line)
+                            lines = self.env['account.move.line'].browse(payment_line.id)
                             lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                             return lines.reconcile()
 
@@ -230,7 +230,7 @@ class AccountInvoice(models.Model):
                                 # for p in invoice.payment_move_line_ids:
                                 #     if p.id == payment_line.id:
                                 # invoice.register_payment(p)
-                                lines = self.env['account.move.line'].browse(payment_line)
+                                lines = self.env['account.move.line'].browse(payment_line.id)
                                 lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                                 return lines.reconcile()
                                 self.env.cr.commit()
@@ -282,7 +282,7 @@ class AccountInvoice(models.Model):
                             # for p in inv.invoice_id.payment_move_line_ids:
                             #     if p.id == payment_line.id:
                             # inv.invoice_id.register_payment(p)
-                            lines = self.env['account.move.line'].browse(payment_line)
+                            lines = self.env['account.move.line'].browse(payment_line.id)
                             lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                             return lines.reconcile()
                             self.env.cr.commit()
@@ -321,7 +321,7 @@ class AccountInvoice(models.Model):
                                 # for p in inv.invoice_id.payment_move_line_ids:
                                 #     if p.id == payment_line.id:
                                 # inv.invoice_id.register_payment(p)
-                                lines = self.env['account.move.line'].browse(payment_line)
+                                lines = self.env['account.move.line'].browse(payment_line.id)
                                 lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                                 return lines.reconcile()
                                 self.env.cr.commit()
