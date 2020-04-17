@@ -117,9 +117,9 @@ class AccountInvoice(models.Model):
             invoice_ids = []
             credit_note_ids = []
             if self.type == 'out_invoice':
-                credit_note_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('state', '=','open'),('type','=', 'out_refund'),('currency_id', '=', self.currency_id.id)])
+                credit_note_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('invoice_payment_state', '=','not_paid'),('type','=', 'out_refund'),('currency_id', '=', self.currency_id.id)])
             if self.type == 'out_refund':
-                invoice_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('state', '=','open'),('type','=', 'out_invoice'),('currency_id', '=', self.currency_id.id)])
+                invoice_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('invoice_payment_state', '=','not_paid'),('type','=', 'out_invoice'),('currency_id', '=', self.currency_id.id)])
             # IMPLEMENT FOR VENDOR BILLS
             # if self.payment_type == 'inbound' and self.partner_type == 'customer':
             #     invoice_ids = self.env['account.invoice'].search([('partner_id', 'in', [self.partner_id.id]),
