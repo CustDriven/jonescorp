@@ -191,9 +191,9 @@ class AccountInvoice(models.Model):
                             lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                             lines.reconcile()
 
-                            lines_next = self.env['account.move.line'].browse(payment_line.id)
-                            lines_next += cn.credit_note_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
-                            lines_next.reconcile()
+                            # lines_next = self.env['account.move.line'].browse(payment_line.id)
+                            # lines_next += cn.credit_note_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
+                            # lines_next.reconcile()
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
@@ -237,9 +237,9 @@ class AccountInvoice(models.Model):
                                 lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                                 lines.reconcile()
 
-                                lines_next = self.env['account.move.line'].browse(payment_line.id)
-                                lines_next += cn.credit_note_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
-                                lines_next.reconcile()
+                                # lines_next = self.env['account.move.line'].browse(payment_line.id)
+                                # lines_next += cn.credit_note_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
+                                # lines_next.reconcile()
                                 self.env.cr.commit()
                             else:
                                 raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(cn.allocation, 2))))         
@@ -264,7 +264,7 @@ class AccountInvoice(models.Model):
             else:
                 for inv in self.invoice_lines:
                     if inv.allocation > 0:
-                        p_data = {'account_id': inv.invoice_id.company_id.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'move_id': self.id}
+                        p_data = {'account_id': inv.invoice_id.company_id.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'move_id': inv.invoice_id.id}
                         move_line = False
                         for line in self.line_ids:
                             if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit >= inv.allocation:
@@ -293,9 +293,9 @@ class AccountInvoice(models.Model):
                             lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                             lines.reconcile()
 
-                            lines_next = self.env['account.move.line'].browse(payment_line.id)
-                            lines_next += inv.invoice_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
-                            lines_next.reconcile()
+                            # lines_next = self.env['account.move.line'].browse(payment_line.id)
+                            # lines_next += inv.invoice_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
+                            # lines_next.reconcile()
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
@@ -336,9 +336,9 @@ class AccountInvoice(models.Model):
                                 lines += self.line_ids.filtered(lambda line: line.account_id == lines[0].account_id and not line.reconciled)
                                 lines.reconcile()
 
-                                lines_next = self.env['account.move.line'].browse(payment_line.id)
-                                lines_next += inv.invoice_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
-                                lines_next.reconcile()
+                                # lines_next = self.env['account.move.line'].browse(payment_line.id)
+                                # lines_next += inv.invoice_id.line_ids.filtered(lambda line: line.account_id == lines_next[0].account_id and not line.reconciled)
+                                # lines_next.reconcile()
                                 self.env.cr.commit()
                             else:
                                 raise ValidationError(("Allocated amount for Invoice " + str(inv.invoice) + " is greater than the invoice due amount. Invoice due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(inv.allocation, 2))))         
