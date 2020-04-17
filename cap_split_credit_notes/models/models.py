@@ -32,7 +32,7 @@ class InvoiceCreditNoteLine(models.Model):
     invoice_id = fields.Many2one('account.move', string="Invoice")
     credit_note_id = fields.Many2one('account.move', string="Credit Note")
     credit_note = fields.Char(related='credit_note_id.name', string="Credit Note Number")
-    account_id = fields.Many2one(related="credit_note_id.partner_id.property_account_receivable_id", string="Account")
+    account_id = fields.Many2one(related="credit_note_id.company_id.partner_id.property_account_receivable_id", string="Account")
     date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
     due_date = fields.Date(string='Due Date', compute='_get_credit_note_data', store=True)
     total_amount = fields.Float(string='Total Amount', compute='_get_credit_note_data', store=True)
@@ -158,10 +158,10 @@ class AccountInvoice(models.Model):
             else:
                 for cn in self.credit_note_lines:
                     if cn.allocation > 0:
-                        p_data = {'account_id': self.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'move_id': cn.credit_note_id.id}
+                        p_data = {'account_id': self.company_id.partner_id.property_account_receivable_id.id, 'partner_id': self.partner_id.id, 'credit': 0, 'move_id': cn.credit_note_id.id}
                         move_line = False
                         for line in cn.credit_note_id.line_ids:
-                            if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit >= cn.allocation:
+                            if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit >= cn.allocation:
                                 move_line = line
                                 break
                         if move_line:
@@ -190,7 +190,7 @@ class AccountInvoice(models.Model):
                         else:
                             unreconciled_amt = 0
                             for line in cn.credit_note_id.line_ids:
-                                if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False:
+                                if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                     unreconciled_amt += line.credit
                             if unreconciled_amt >= cn.allocation:
                                 move = cn.credit_note_id
@@ -200,7 +200,7 @@ class AccountInvoice(models.Model):
                                 self.env.cr.commit()
                                 amt_left = cn.allocation
                                 for line in cn.credit_note_id.line_ids:
-                                    if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False:
+                                    if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                         if amt_left <= 0:
                                             break
                                         else:
@@ -229,7 +229,7 @@ class AccountInvoice(models.Model):
                         move = cn.credit_note_id
                         move.button_cancel()
                         for line in cn.credit_note_id.line_ids:
-                            if line.account_id.id == self.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
+                            if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
                                 line.unlink()
                         move.action_post()
 
@@ -275,7 +275,7 @@ class AccountInvoice(models.Model):
                         else:
                             unreconciled_amt = 0
                             for line in self.line_ids:
-                                if line.account_id.id == inv.invoice_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
+                                if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                     unreconciled_amt += line.credit
                             if unreconciled_amt >= inv.allocation:
                                 move = inv.invoice_id
@@ -285,7 +285,7 @@ class AccountInvoice(models.Model):
                                 self.env.cr.commit()
                                 amt_left = inv.allocation
                                 for line in self.line_ids:
-                                    if line.account_id.id == inv.invoice_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
+                                    if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                         if amt_left <= 0:
                                             break
                                         else:
@@ -315,7 +315,7 @@ class AccountInvoice(models.Model):
                         move = self
                         move.button_cancel()
                         for line in self.line_ids:
-                            if line.account_id.id == inv.invoice_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
+                            if line.account_id.id == inv.invoice_id.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False and line.credit == 0 and line.debit == 0:
                                 line.unlink()
                         move.action_post()
         self.update_invoice_and_credit_note_lines()  
