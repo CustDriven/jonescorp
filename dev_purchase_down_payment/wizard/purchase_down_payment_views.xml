@@ -37,7 +37,7 @@ For Module Support : devintelle@gmail.com  or Skype : devintelle
         <field name="name">Bill Order</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">purchase.down.payment</field>
-        <field name="view_type">form</field>
+        <!-- <field name="view_type">form</field> -->
         <field name="view_mode">form</field>
         <field name="context">{'default_purchase_id': active_id}</field>
         <field name="view_id" ref="form_dev_purchase_down_payment"/>
