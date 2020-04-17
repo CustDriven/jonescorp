@@ -29,61 +29,61 @@ from odoo.tools import float_is_zero
 class InvoiceCreditNoteLine(models.Model):
     _name = 'invoice.creditnote.line'
 
-    invoice_id = fields.Many2one('account.move', string="Invoice")
-    credit_note_id = fields.Many2one('account.move', string="Credit Note")
-    credit_note = fields.Char(related='credit_note_id.name', string="Credit Note Number")
-    account_id = fields.Many2one(related="credit_note_id..partner_id.property_account_receivable_id", string="Account")
-    date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
-    due_date = fields.Date(string='Due Date', compute='_get_credit_note_data', store=True)
-    total_amount = fields.Float(string='Total Amount', compute='_get_credit_note_data', store=True)
-    open_amount = fields.Float(string='Due Amount', compute='_get_credit_note_data', store=True)
-    allocation = fields.Float(string='Allocation Amount')
+    # invoice_id = fields.Many2one('account.move', string="Invoice")
+    # credit_note_id = fields.Many2one('account.move', string="Credit Note")
+    # credit_note = fields.Char(related='credit_note_id.name', string="Credit Note Number")
+    # account_id = fields.Many2one(related="credit_note_id..partner_id.property_account_receivable_id", string="Account")
+    # date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
+    # due_date = fields.Date(string='Due Date', compute='_get_credit_note_data', store=True)
+    # total_amount = fields.Float(string='Total Amount', compute='_get_credit_note_data', store=True)
+    # open_amount = fields.Float(string='Due Amount', compute='_get_credit_note_data', store=True)
+    # allocation = fields.Float(string='Allocation Amount')
 
-    @api.depends('credit_note_id')
-    def _get_credit_note_data(self):
-        for data in self:
-            credit_note_id = data.credit_note_id
-            data.date = credit_note_id.date_invoice
-            data.due_date = credit_note_id.date_due
-            data.total_amount = credit_note_id.amount_total 
-            data.open_amount = credit_note_id.residual
+    # @api.depends('credit_note_id')
+    # def _get_credit_note_data(self):
+    #     for data in self:
+    #         credit_note_id = data.credit_note_id
+    #         data.date = credit_note_id.date_invoice
+    #         data.due_date = credit_note_id.date_due
+    #         data.total_amount = credit_note_id.amount_total 
+    #         data.open_amount = credit_note_id.residual
 
 class CreditNoteInvoiceLine(models.Model):
     _name = 'creditnote.invoice.line'
 
-    credit_note_id = fields.Many2one('account.move', string="Credit Note")
-    invoice_id = fields.Many2one('account.move', string="Invoice")
-    invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
-    account_id = fields.Many2one(related="invoice_id.company_id.partner_id.property_account_receivable_id", string="Account")
-    date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
-    due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
-    total_amount = fields.Float(string='Total Amount', compute='_get_invoice_data', store=True)
-    open_amount = fields.Float(string='Due Amount', compute='_get_invoice_data', store=True)
-    allocation = fields.Float(string='Allocation Amount')
+    # credit_note_id = fields.Many2one('account.move', string="Credit Note")
+    # invoice_id = fields.Many2one('account.move', string="Invoice")
+    # invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
+    # account_id = fields.Many2one(related="invoice_id.company_id.partner_id.property_account_receivable_id", string="Account")
+    # date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
+    # due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
+    # total_amount = fields.Float(string='Total Amount', compute='_get_invoice_data', store=True)
+    # open_amount = fields.Float(string='Due Amount', compute='_get_invoice_data', store=True)
+    # allocation = fields.Float(string='Allocation Amount')
 
-    @api.depends('invoice_id')
-    def _get_invoice_data(self):
-        for data in self:
-            invoice_id = data.invoice_id
-            data.date = invoice_id.date_invoice
-            data.due_date = invoice_id.date_due
-            data.total_amount = invoice_id.amount_total 
-            data.open_amount = invoice_id.residual
+    # @api.depends('invoice_id')
+    # def _get_invoice_data(self):
+    #     for data in self:
+    #         invoice_id = data.invoice_id
+    #         data.date = invoice_id.date_invoice
+    #         data.due_date = invoice_id.date_due
+    #         data.total_amount = invoice_id.amount_total 
+    #         data.open_amount = invoice_id.residual
 
 class InvoiceRegisteredPayment(models.Model):
-    _name = 'account.invoice.payment.registered'
+    # _name = 'account.invoice.payment.registered'
 
-    name = fields.Char(String="Name")
-    journal_name = fields.Char(String="Journal Name")
-    amount = fields.Float(String="Amount")
-    currency = fields.Char(String="Currency")
-    date = fields.Date(String="Payment Date")
-    payment_id = fields.Many2one('account.move.line', String="Payment")
-    move_id = fields.Many2one('account.move', String="Journal Entry")
-    ref = fields.Char(String="Payment Ref")
-    invoice_id = fields.Many2one('account.move', String="Invoice")
-    # digits = [69, currency_id.decimal_places],
-    # position = currency_id.position,
+    # name = fields.Char(String="Name")
+    # journal_name = fields.Char(String="Journal Name")
+    # amount = fields.Float(String="Amount")
+    # currency = fields.Char(String="Currency")
+    # date = fields.Date(String="Payment Date")
+    # payment_id = fields.Many2one('account.move.line', String="Payment")
+    # move_id = fields.Many2one('account.move', String="Journal Entry")
+    # ref = fields.Char(String="Payment Ref")
+    # invoice_id = fields.Many2one('account.move', String="Invoice")
+    # # digits = [69, currency_id.decimal_places],
+    # # position = currency_id.position,
 
 class AccountInvoice(models.Model):
     _inherit = 'account.move'
