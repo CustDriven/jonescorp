@@ -3,19 +3,19 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_is_zero
 
 
-class PaymentInvoiceLine(models.Model):
-    _name = 'payment.invoice.line'
+# class PaymentInvoiceLine(models.Model):
+#     _name = 'payment.invoice.line'
     
-    payment_id = fields.Many2one('account.payment', string="Payment")
-    invoice_id = fields.Many2one('account.move', string="Invoice")
-    invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
-    account_id = fields.Many2one(related="invoice_id.account_id", string="Account")
-    date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
-    due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
-    total_amount = fields.Float(string='Total Amount', compute='_get_invoice_data', store=True)
-    open_amount = fields.Float(string='Due Amount', compute='_get_invoice_data', store=True)
-    allocation = fields.Float(string='Allocation Amount')
-    discount = fields.Float(string='Discount Amount')
+#     payment_id = fields.Many2one('account.payment', string="Payment")
+#     invoice_id = fields.Many2one('account.move', string="Invoice")
+#     invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
+#     account_id = fields.Many2one(related="invoice_id.company_id.property_account_receivable_id", string="Account")
+#     date = fields.Date(string='Invoice Date', compute='_get_invoice_data', store=True)
+#     due_date = fields.Date(string='Due Date', compute='_get_invoice_data', store=True)
+#     total_amount = fields.Float(string='Total Amount', compute='_get_invoice_data', store=True)
+#     open_amount = fields.Float(string='Due Amount', compute='_get_invoice_data', store=True)
+#     allocation = fields.Float(string='Allocation Amount')
+#     discount = fields.Float(string='Discount Amount')
     
     @api.depends('invoice_id')
     def _get_invoice_data(self):
