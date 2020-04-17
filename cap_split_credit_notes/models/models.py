@@ -46,7 +46,7 @@ class InvoiceCreditNoteLine(models.Model):
             data.date = credit_note_id.invoice_date
             data.due_date = credit_note_id.invoice_date_due
             data.total_amount = credit_note_id.amount_total 
-            data.open_amount = credit_note_id.residual
+            data.open_amount = credit_note_id.amount_residual
 
 class CreditNoteInvoiceLine(models.Model):
     _name = 'creditnote.invoice.line'
@@ -68,7 +68,7 @@ class CreditNoteInvoiceLine(models.Model):
             data.date = invoice_id.invoice_date
             data.due_date = invoice_id.invoice_date_due
             data.total_amount = invoice_id.amount_total 
-            data.open_amount = invoice_id.residual
+            data.open_amount = invoice_id.amount_residual
 
 class InvoiceRegisteredPayment(models.Model):
     _name = 'account.invoice.payment.registered'
@@ -95,9 +95,9 @@ class AccountInvoice(models.Model):
 
     def update_invoice_and_credit_note_lines(self):
         for inv in self.credit_note_lines:
-            inv.open_amount = inv.invoice_id.residual
+            inv.open_amount = inv.invoice_id.amount_residual
         for inv in self.invoice_lines:
-            inv.open_amount = inv.credit_note_id.residual 
+            inv.open_amount = inv.credit_note_id.amount_residual 
         self.onchange_partner_id()
         
     @api.onchange('partner_type')
@@ -156,8 +156,8 @@ class AccountInvoice(models.Model):
                     raise ValidationError(("Allocated amount for credit note " + str(cn.credit_note) + " is higher than the due amount. Due amount is equal to " + str(round(cn.open_amount, 2)) + " and allocated amount is equal to %s") %(round(cn.allocation, 2)))
                 else:
                     amt += cn.allocation
-            if round(amt, 2) > round(self.residual, 2):
-                raise ValidationError(("Total allocated amount is higher than Invoice due amount. Invoice due amount is equal to " + str(round(self.residual, 2)) + " and Total allocated amount is equal to %s") %(round(amt, 2)))
+            if round(amt, 2) > round(self.amount_residual, 2):
+                raise ValidationError(("Total allocated amount is higher than Invoice due amount. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(round(amt, 2)))
             else:
                 for cn in self.credit_note_lines:
                     if cn.allocation > 0:
@@ -227,7 +227,7 @@ class AccountInvoice(models.Model):
                                         invoice.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
+                                raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
                         
                         move = cn.credit_note_id.move_id
                         move.button_cancel()
@@ -244,8 +244,8 @@ class AccountInvoice(models.Model):
                     raise ValidationError(("Allocated amount for Invoice " + str(inv.invoice) + " is higher than the due amount. Due amount is equal to " + str(round(inv.open_amount, 2)) + " and allocated amount is equal to %s") %(round(inv.allocation, 2)))
                 else:
                     amt += inv.allocation
-            if round(amt, 2) > round(self.residual, 2):
-                raise ValidationError(("Total allocated amount is higher than Credit Note due amount. Credit Note due amount is equal to " + str(round(self.residual, 2)) + " and Total allocated amount is equal to %s") %(round(amt, 2)))
+            if round(amt, 2) > round(self.amount_residual, 2):
+                raise ValidationError(("Total allocated amount is higher than Credit Note due amount. Credit Note due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(round(amt, 2)))
             else:
                 for inv in self.invoice_lines:
                     if inv.allocation > 0:
@@ -312,7 +312,7 @@ class AccountInvoice(models.Model):
                                         inv.invoice_id.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
+                                raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
                         
                         move = self.move_id
                         move.button_cancel()
@@ -356,7 +356,7 @@ class AccountInvoice(models.Model):
     #             remain -= line.allocation
     #         total += line.allocation
 
-    @api.depends('residual')
+    @api.depends('amount_residual')
     @api.depends('payment_move_line_ids.amount_residual')
     def _get_payments_registered_in_invoice(self):
         for s in self:
