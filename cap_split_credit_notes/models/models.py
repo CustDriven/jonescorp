@@ -117,9 +117,9 @@ class AccountInvoice(models.Model):
             invoice_ids = []
             credit_note_ids = []
             if self.type == 'out_invoice':
-                credit_note_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('invoice_payment_state', '=','not_paid'),('type','=', 'out_refund'),('currency_id', '=', self.currency_id.id)])
+                credit_note_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('invoice_payment_state', '=','not_paid'),('type','=', 'out_refund'),('currency_id', '=', self.currency_id.id),('company_id','=',self.company_id.id)])
             if self.type == 'out_refund':
-                invoice_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('invoice_payment_state', '=','not_paid'),('type','=', 'out_invoice'),('currency_id', '=', self.currency_id.id)])
+                invoice_ids = self.env['account.move'].search([('partner_id', 'in', [self.partner_id.id]),('invoice_payment_state', '=','not_paid'),('type','=', 'out_invoice'),('currency_id', '=', self.currency_id.id),('company_id','=',self.company_id.id)])
             # IMPLEMENT FOR VENDOR BILLS
             # if self.payment_type == 'inbound' and self.partner_type == 'customer':
             #     invoice_ids = self.env['account.invoice'].search([('partner_id', 'in', [self.partner_id.id]),
@@ -227,7 +227,7 @@ class AccountInvoice(models.Model):
                                         invoice.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s\n" + str(accounts)) %(str(round(cn.allocation, 2))))         
+                                raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(cn.allocation, 2))))         
                         
                         move = cn.credit_note_id
                         move.button_cancel()
