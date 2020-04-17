@@ -189,9 +189,12 @@ class AccountInvoice(models.Model):
                             self.env.cr.commit()
                         else:
                             unreconciled_amt = 0
+                            accounts = []
                             for line in cn.credit_note_id.line_ids:
                                 if line.account_id.id == self.company_id.partner_id.property_account_receivable_id.id and line.reconciled == False:
                                     unreconciled_amt += line.credit
+                                else:
+                                    accounts.append("Line account: " + str(line.account_id.id) + "; Invoice account: " + str(self.company_id.partner_id.property_account_receivable_id.id) + "; Is reconciled: " + str(line.reconciled) + "\n")
                             if unreconciled_amt >= cn.allocation:
                                 move = cn.credit_note_id
                                 move.button_cancel()
@@ -224,7 +227,7 @@ class AccountInvoice(models.Model):
                                         invoice.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(cn.allocation, 2))))         
+                                raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s\n" + str(accounts)) %(str(round(cn.allocation, 2))))         
                         
                         move = cn.credit_note_id
                         move.button_cancel()
@@ -309,7 +312,6 @@ class AccountInvoice(models.Model):
                                         inv.invoice_id.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                log("Unreconciled amt: " + str(unreconciled_amt) + "; Due amt: " + str(inv.allocation))
                                 raise ValidationError(("Allocated amount for Invoice " + str(inv.invoice) + " is greater than the invoice due amount. Invoice due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(inv.allocation, 2))))         
                         
                         move = self
