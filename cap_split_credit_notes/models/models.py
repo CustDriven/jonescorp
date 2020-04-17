@@ -30,7 +30,7 @@ class InvoiceCreditNoteLine(models.Model):
     _name = 'invoice.creditnote.line'
 
     invoice_id = fields.Many2one('account.move', string="Invoice")
-    # credit_note_id = fields.Many2one('account.move', string="Credit Note")
+    credit_note_id = fields.Many2one('account.move', string="Credit Note")
     # credit_note = fields.Char(related='credit_note_id.name', string="Credit Note Number")
     # account_id = fields.Many2one(related="credit_note_id..partner_id.property_account_receivable_id", string="Account")
     # date = fields.Date(string='Credit Note Date', compute='_get_credit_note_data', store=True)
@@ -51,7 +51,7 @@ class InvoiceCreditNoteLine(models.Model):
 class CreditNoteInvoiceLine(models.Model):
     _name = 'creditnote.invoice.line'
 
-    # credit_note_id = fields.Many2one('account.move', string="Credit Note")
+    credit_note_id = fields.Many2one('account.move', string="Credit Note")
     invoice_id = fields.Many2one('account.move', string="Invoice")
     # invoice = fields.Char(related='invoice_id.name', string="Invoice Number")
     # account_id = fields.Many2one(related="invoice_id.company_id.partner_id.property_account_receivable_id", string="Account")
