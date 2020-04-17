@@ -149,9 +149,6 @@ class AccountInvoice(models.Model):
             invoice = self
             amt = 0
             for cn in self.credit_note_lines:
-                # if cn.allocation <= 0:
-                #     self['credit_note_lines'] = [(3, cn.id)]
-                #     cn.unlink()
                 if round(cn.allocation, 2) > round(cn.open_amount, 2):
                     raise ValidationError(("Allocated amount for credit note " + str(cn.credit_note) + " is higher than the due amount. Due amount is equal to " + str(round(cn.open_amount, 2)) + " and allocated amount is equal to %s") %(round(cn.allocation, 2)))
                 else:
@@ -227,7 +224,7 @@ class AccountInvoice(models.Model):
                                         invoice.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
+                                raise ValidationError(("Allocated amount for Credit Note " + str(cn.credit_note) + " is greater than the Credit Note due amount. Credit Note due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(cn.allocation, 2))))         
                         
                         move = cn.credit_note_id
                         move.button_cancel()
@@ -312,7 +309,8 @@ class AccountInvoice(models.Model):
                                         inv.invoice_id.register_payment(p)
                                 self.env.cr.commit()
                             else:
-                                raise ValidationError(("Total allocated amount and Invoice due amount are not equal. Invoice due amount is equal to " + str(round(self.amount_residual, 2)) + " and Total allocated amount is equal to %s") %(str(round(amt, 2))))         
+                                log("Unreconciled amt: " + str(unreconciled_amt) + "; Due amt: " + str(inv.allocation))
+                                raise ValidationError(("Allocated amount for Invoice " + str(inv.invoice) + " is greater than the invoice due amount. Invoice due amount is equal to " + str(round(unreconciled_amt, 2)) + " and allocated amount is equal to %s") %(str(round(inv.allocation, 2))))         
                         
                         move = self
                         move.button_cancel()
