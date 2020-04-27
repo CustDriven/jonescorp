@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <record id="purchase_config_dev_purchase_down_payment_inherited" model="ir.ui.view">
+        <field name="name">purchase.config.dev.purchase.down.payment.inherited</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='purchase']//h2[2]" position="before">
+                <h2>Advance Payment Product</h2>
+                <div class="col-12 col-lg-8 o_setting_box">
+                    <group>
+                        <group>
+                            <field name="down_payment_product_id"/>
+                        </group>
+                        <group>
+                        </group>
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

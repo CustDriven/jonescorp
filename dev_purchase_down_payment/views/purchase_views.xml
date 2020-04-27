@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <record id="purchase_form_dev_purchase_down_payment_inherited" model="ir.ui.view">
+        <field name="name">purchase.form.dev.purchase.down.payment.inherited</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header//button[@name='action_view_invoice'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header//button[@name='action_view_invoice'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="hide_create_bill" invisible="1"/>
+            </xpath>
+            <xpath expr="//header//button[@name='action_rfq_send'][1]" position="before">
+                <button name="%(action_dev_purchase_down_payment)d"
+                        string="Create Bill"
+                        type="action"
+                        context="{'create_bill':True}"
+                        class="btn-primary"
+                        attrs="{'invisible': ['|', ('state', '!=', 'purchase'), ('hide_create_bill', '=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
