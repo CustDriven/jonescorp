@@ -10,4 +10,4 @@ class Transfer(models.Model):
         return self.env.ref('studio_customization.transfer_report_5dadae11-98a4-4a49-b45f-a14e1dc2d03b').report_action(self)
         
     def print_picking(self):
-        return self.env.ref('stock.stock.action_report_picking').report_action(self)
+        return self.env.ref('stock.action_report_picking').report_action(self)
