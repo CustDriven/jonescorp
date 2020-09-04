@@ -8,3 +8,6 @@ class Transfer(models.Model):
 
     def print_barcode(self):
         return self.env.ref('studio_customization.transfer_report_5dadae11-98a4-4a49-b45f-a14e1dc2d03b').report_action(self)
+        
+    def print_picking(self):
+        return self.env.ref('stock.report_picking').report_action(self)
