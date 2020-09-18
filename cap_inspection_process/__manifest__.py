@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale',  'project', 'stock'],
+    'depends': ['base', 'sale',  'project', 'stock', 'crm'],
 
     # 'data': [
     #  # 'security/ir.model.access.csv',
