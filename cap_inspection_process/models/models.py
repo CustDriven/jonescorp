@@ -26,7 +26,7 @@ class Lead2OpportunityPartner(models.TransientModel):
         """
 
         _logger.info("LAAAAAAAAAAAUNCHED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
+        _logger.info(str(self.env.context))
         self.ensure_one()
         values = {
             'team_id': self.team_id.id,
