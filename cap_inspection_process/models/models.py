@@ -39,9 +39,9 @@ class Lead2OpportunityPartner(models.TransientModel):
                     'active': True,
                     'activity_type_id': False,
                     'lost_reason': False,   
-                    'date_deadline': record.x_estimated_close_date,
-                    'planned_revenue': record.x_estimated_value,
-                    'x_opportunity_type': record.x_opp_type,
+                    'date_deadline': self.x_estimated_close_date,
+                    'planned_revenue': self.x_estimated_value,
+                    'x_opportunity_type': self.x_opp_type,
                     'stage_id': 1,
                 })
             if leads.type == "lead":
