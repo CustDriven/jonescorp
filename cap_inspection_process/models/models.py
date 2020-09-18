@@ -41,11 +41,7 @@ class Lead2OpportunityPartner(models.TransientModel):
                 leads.write({
                     'active': True,
                     'activity_type_id': False,
-                    'lost_reason': False,   
-                    'date_deadline': self.x_estimated_close_date,
-                    'planned_revenue': self.x_estimated_value,
-                    'x_opportunity_type': self.x_opp_type,
-                    'stage_id': 1,
+                    'lost_reason': False,
                 })
             if leads.type == "lead":
                 values.update({'lead_ids': leads.ids, 'user_ids': [self.user_id.id]})
@@ -57,5 +53,10 @@ class Lead2OpportunityPartner(models.TransientModel):
             leads = self.env['crm.lead'].browse(self._context.get('active_ids', []))
             values.update({'lead_ids': leads.ids, 'user_ids': [self.user_id.id]})
             self._convert_opportunity(values)
-
+        leads.write({
+                    'date_deadline': self.x_estimated_close_date,
+                    'planned_revenue': self.x_estimated_value,
+                    'x_opportunity_type': self.x_opp_type,
+                    'stage_id': 1,
+                })
         return leads[0].redirect_lead_opportunity_view()
